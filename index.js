@@ -15,46 +15,103 @@ const elementCreator = (tagName, className, textContent, style) => {
     return element;
 }
 
-const registrationForm = elementCreator("form", "registration-form")
+class AuthForm {
+    constructor(type) {
+        this.form = elementCreator("form", `${type}-form`)
 
-const usernameInput = elementCreator("input", "username-input")
-usernameInput.type = "text"
-usernameInput.placeholder = "Введите ваше имя"
+        this.usernameInput = elementCreator("input", `${type}-username-input`)
+        this.usernameInput.type = "text"
+        this.usernameInput.placeholder = "Введите ваше имя"
 
-const passwordInput = elementCreator("input", "password-input")
-passwordInput.type = "password"
-passwordInput.placeholder = "Введите ваш пароль"
+        this.passwordInput = elementCreator("input", `${type}-password-input`)
+        this.passwordInput.type = "password"
+        this.passwordInput.placeholder = "Введите ваш пароль"
 
-const sendFormButton = elementCreator("button", "send-form-button", "Отправить")
-sendFormButton.type = "submit"
+        this.sendFormButton = elementCreator("button", `${type}-send-form`, "Отправить")
+        this.sendFormButton.type = "submit"
 
-const validateUserInputs = () => {
-    if (usernameInput.value.trim() !== "" && usernameInput.value.length >= 6 && passwordInput.value.trim() !== "" && passwordInput.value.length >= 6) {
-        sendFormButton.removeAttribute("disabled")
-    } else {
-        sendFormButton.setAttribute("disabled", "true")
+        this.form.append(this.usernameInput, this.passwordInput, this.sendFormButton)
+    }
+
+    validateUserInputs() {
+        if (
+            this.usernameInput.value.trim() !== "" && 
+            this.usernameInput.value.length >= 6 && 
+            this.passwordInput.value.trim() !== "" && 
+            this.passwordInput.value.length >= 6
+            ) {
+            this.sendFormButton.removeAttribute("disabled")
+        } else {
+            this.sendFormButton.setAttribute("disabled", "true")
+        }
+    }
+
+    sendUserInfo(e) {
+        e.preventDefault()
+    
+        let userInfoObj = {
+            username: this.usernameInput.value,
+            userPassword: this.passwordInput.value
+        }
+    
+        localStorage.setItem("userInfo", JSON.stringify(userInfoObj))
+        this.usernameInput.value = ""
+        this.passwordInput.value = ""
+        this.validateUserInputs()
+    }
+
+    checkUserInfo(e) {
+        e.preventDefault()
+        let okStatusTestDiv = elementCreator("div", "OK", "OK")
+        let declineStatusTestDiv = elementCreator("div", "decline", "decline")
+
+        const userDataFromStorage = localStorage.getItem("userInfo")
+        if (userDataFromStorage) {
+            const userInfo = JSON.parse(userDataFromStorage)
+            if (this.usernameInput.value === userInfo.username && this.passwordInput.value === userInfo.userPassword) {
+                document.body.append(okStatusTestDiv)
+            } else {
+                document.body.append(declineStatusTestDiv)
+            }
+        }
+    }
+
+    getForm() {
+        return this.form
     }
 }
 
-validateUserInputs()
-usernameInput.addEventListener("input", validateUserInputs)
-passwordInput.addEventListener("input", validateUserInputs)
+const authWindow = elementCreator("div", "authentication-window")
 
-const sendUserInfo = (e) => {
-    e.preventDefault()
+const goToRegistrationButton = elementCreator("button", "registration-button", "Регистрация")
 
-    let userInfoObj = {
-        username: usernameInput.value,
-        userPassword: passwordInput.value
-    }
+const goToLoginButton = elementCreator("button", "login-button", "Войти")
 
-    localStorage.setItem("userInfo:", JSON.stringify(userInfoObj))
-    usernameInput.value = ""
-    passwordInput.value = ""
-    validateUserInputs()
+const registrationModalWindow = elementCreator("div", "registration-modal-window")
+
+const loginModalWindow = elementCreator("div", "login-modal-window")
+
+authWindow.append(goToRegistrationButton, goToLoginButton)
+
+const redirectToLoginScreen = () => {
 }
-registrationForm.addEventListener("submit", sendUserInfo)
 
-registrationForm.append(usernameInput, passwordInput, sendFormButton)
+const registrationForm = new AuthForm("registration")
+const loginForm = new AuthForm("login")
 
-document.body.append(registrationForm)
+registrationForm.usernameInput.addEventListener("input", () => registrationForm.validateUserInputs())
+registrationForm.passwordInput.addEventListener("input", () => registrationForm.validateUserInputs())
+
+registrationForm.form.addEventListener("submit", (e) => registrationForm.sendUserInfo(e))
+
+loginForm.usernameInput.addEventListener("input", () => loginForm.validateUserInputs())
+loginForm.passwordInput.addEventListener("input", () => loginForm.validateUserInputs())
+
+loginForm.form.addEventListener("submit", (e) => loginForm.checkUserInfo(e))
+
+registrationModalWindow.append(registrationForm.getForm())
+loginModalWindow.append(loginForm.getForm())
+
+document.body.append(authWindow, registrationModalWindow, loginModalWindow)
+registrationForm.validateUserInputs()
+loginForm.validateUserInputs()
