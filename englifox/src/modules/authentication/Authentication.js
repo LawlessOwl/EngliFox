@@ -1,19 +1,5 @@
-const elementCreator = (tagName, className, textContent, style) => {
-    const element = document.createElement(tagName)
-    element.classList.add(className)
-    
-    if(textContent) {
-        element.textContent = textContent
-    }
-
-    if (style) {
-        Object.entries(style).forEach(([key, value]) => {
-          element.style[key] = value;
-        });
-    }
-
-    return element;
-}
+import { appRouter } from "../../App.js"
+import { elementCreator } from "../element-creator/elementCreator.js"
 
 class AuthForm {
     constructor(type) {
@@ -131,27 +117,40 @@ class LoginForm extends AuthForm {
             const testErrDiv = elementCreator("div", "err", "err")
             let isUserInputsCorrect = this.checkUserInfo()
             if (isUserInputsCorrect) {
-                document.body.append(testOkDiv)
+                appRouter.navigate("/main")
             } else {
                 document.body.append(testErrDiv)
             }
         }
 }
 
-const authWindow = elementCreator("div", "authentication-window")
+export const renderAuth = () => {
+    const authWindow = elementCreator("div", "authentication-window")
 
 const goToRegistrationButton = elementCreator("button", "registration-button", "Регистрация")
 
 const goToLoginButton = elementCreator("button", "login-button", "Войти")
 
-const registrationModalWindow = elementCreator("div", "registration-modal-window")
+const registrationModalWindow = elementCreator("div", "registration-modal-window", null, {
+    display: "none"
+})
 
-const loginModalWindow = elementCreator("div", "login-modal-window")
+const loginModalWindow = elementCreator("div", "login-modal-window", null, {
+    display: "none"
+})
 
-authWindow.append(goToRegistrationButton, goToLoginButton)
-
-const redirectToLoginScreen = () => {
+const openRegistrationModal = () => {
+    registrationModalWindow.style.display = "block"
+    loginModalWindow.style.display = "none"
 }
+
+const openLoginModal = () => {
+    loginModalWindow.style.display = "block"
+    registrationModalWindow.style.display = "none"
+}
+
+goToRegistrationButton.addEventListener("click", openRegistrationModal)
+goToLoginButton.addEventListener("click", openLoginModal)
 
 const registrationForm = new RegistrationForm()
 const loginForm = new LoginForm()
@@ -159,6 +158,9 @@ const loginForm = new LoginForm()
 registrationModalWindow.append(registrationForm.getForm())
 loginModalWindow.append(loginForm.getForm())
 
-document.body.append(authWindow, registrationModalWindow, loginModalWindow)
+authWindow.append(goToRegistrationButton, goToLoginButton, registrationModalWindow, loginModalWindow)
+
 registrationForm.validateUserInputs()
 loginForm.validateUserInputs()
+return authWindow
+}
