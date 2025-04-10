@@ -1,0 +1,38 @@
+.main-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    padding: 16px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: orangered;
+    border-bottom: 1px solid black
+}
+
+.main-page-body {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: orange;
+    padding: 16px;
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-page-content {
+    flex: 1;
+    padding: 24px;
+    background-color: lightsteelblue;
+}
+
+.nav-menu-button {
+    background-color: aliceblue;
+    border-radius: 10%;
+}

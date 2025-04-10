@@ -113,11 +113,10 @@ class LoginForm extends AuthForm {
     }
     authStatus(e) {
             e.preventDefault()
-            const testOkDiv = elementCreator("div", "ok", "ok")
             const testErrDiv = elementCreator("div", "err", "err")
             let isUserInputsCorrect = this.checkUserInfo()
             if (isUserInputsCorrect) {
-                appRouter.navigate("/main")
+                appRouter.navigate("/home")
             } else {
                 document.body.append(testErrDiv)
             }

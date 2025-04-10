@@ -10,7 +10,7 @@ const routes = {
         const userData = localStorage.getItem("userInfo")
         return userData ? renderMain() : renderAuth()
     },
-    "/main": renderMain,
+    "/home": renderMain,
     "/auth": renderAuth,
 }
 
