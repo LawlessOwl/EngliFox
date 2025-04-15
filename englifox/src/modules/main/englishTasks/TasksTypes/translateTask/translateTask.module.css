@@ -37,3 +37,11 @@
     cursor: grab;
     user-select: none;
 }
+
+.correct-answer {
+    background-color: lightgreen;
+}
+
+.wrong-answer {
+    background-color: lightcoral;
+}

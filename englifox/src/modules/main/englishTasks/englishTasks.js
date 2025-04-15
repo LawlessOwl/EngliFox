@@ -1,13 +1,3 @@
-/*
-TODO
-Что будем делать здесь?
-Здесь будем создавать темы, подтемы и задания к ним
-Потом разобью это на компоненты
-1) Реализовать логику создания темы
-2) Реализовать логику создания подтемы
-3) Реализовать сами задачи для пользователей (Разные типы заданий)
-*/
-
 import { appRouter } from "../../../App"
 import { elementCreator } from "../../element-creator/elementCreator"
 import { renderTranslateTask } from "./TasksTypes/translateTask/translateTask"

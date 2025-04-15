@@ -19,10 +19,12 @@ export const renderTranslateTask = (taskInfo) => {
 
     const optionsSlotsMap = new Map()
     const dropSlotsMap = new Map()
+    const dropSlots = []
     
 
-    wordsInAnswer.forEach(word => {
+    wordsInAnswer.forEach((word, index) => {
         const dropSlot = elementCreator("div", styles["drop-slot"])
+        dropSlot.id = `drop-slot-${index}`
         dropSlot.isEmpty = true
 
         dropSlot.addEventListener("dragover", (e) => {
@@ -36,22 +38,27 @@ export const renderTranslateTask = (taskInfo) => {
 
             e.preventDefault()
 
-            for(const [slot, word] of dropSlotsMap.entries()) {
+            for(const [slotId, word] of dropSlotsMap.entries()) {
                 if (word === draggedElement) {
-                    slot.textContent = ""
-                    slot.isEmpty = true
-                    dropSlotsMap.delete(slot)
+                    const slot = optionsSlotsMap.get(slotId)
+                    if (slot) {
+                        slot.textContent = ""
+                        slot.isEmpty = true
+                        dropSlotsMap.delete(slotId)
+                    }
                 }
             }
 
             dropSlot.textContent = draggedElement
             dropSlot.isEmpty = false
-            dropSlotsMap.set(dropSlot, draggedElement)
+            dropSlotsMap.set(dropSlot.id, draggedElement)
 
             if(sourceOptionSlotId) {
-                const soruceOptionSlot = optionsSlotsMap.get(sourceOptionSlotId)
-                soruceOptionSlot.textContent = ""
-                soruceOptionSlot.classList.add(styles["option-slot-empty"])
+                const sourceOptionSlot = optionsSlotsMap.get(sourceOptionSlotId)
+                if(sourceOptionSlot) {
+                    sourceOptionSlot.textContent = ""
+                    sourceOptionSlot.classList.add(styles["option-slot-empty"])
+                }
             }
 
             dropSlot.draggable = true
@@ -60,13 +67,29 @@ export const renderTranslateTask = (taskInfo) => {
                 e.dataTransfer.setData("source-slot", dropSlot.id)
                 dropSlot.classList.add(styles["option-slot-empty"])
                 dropSlot.isEmpty = true
-                dropSlotsMap.delete(dropSlot)
-                setTimeout(() => dropSlot.textContent = "", 0)
+                dropSlotsMap.delete(dropSlot.id)
+                requestAnimationFrame(() => {
+                    dropSlot.textContent = ""
+                })
+
+                const currentDraggedElement = e.dataTransfer.getData("text/plain")
+                const onDragEnd = () => {
+                    if (!Array.from(dropSlotsMap.values()).includes(currentDraggedElement) &&
+                !currentOptions.includes(currentDraggedElement)) {
+                    currentOptions.push(currentDraggedElement)
+                    updateAnswerOptions(currentOptions)
+                }
+                 window.removeEventListener("dragend", onDragEnd)
+                }
+                window.addEventListener("dragend", onDragEnd)
             })
 
-            currentOptions = currentOptions.filter(option => option !== draggedElement)
+            currentOptions = taskInfo.answerOptions.filter(
+                word => !Array.from(dropSlotsMap.values()).includes(word)
+            ) 
             updateAnswerOptions(currentOptions)
         })
+        dropSlots.push(dropSlot)
         taskAnswerInput.append(dropSlot)
     })
     
@@ -102,8 +125,10 @@ export const renderTranslateTask = (taskInfo) => {
 
 
     const updateAnswerOptions = (options) => {
+        const optionsCopy = [...options]
+        const shuffledOpptions = shuffleArray(optionsCopy)
         answerOptionsContainer.innerHTML = ""
-        shuffleArray(options).forEach((option, id) => {
+        shuffledOpptions.forEach((option, id) => {
             const slot = createOptionSlot(option, id)
             answerOptionsContainer.append(slot)
         })
@@ -111,7 +136,30 @@ export const renderTranslateTask = (taskInfo) => {
 
     updateAnswerOptions(currentOptions)
 
-    taskContainer.append(taskAnswerContainer, answerOptionsContainer)
+    const checkAnswerButton = elementCreator("button", styles["check-answer-button"], "Проверить ответ")
+    const checkAnswer = () => {
+        dropSlots.forEach((slot, index) => {
+            slot.classList.remove(styles["correct-answer"], styles["wrong-answer"])
+            const wordNormalizer = (word) => word?.trim().replace(/[.,!?]/g, "").toLowerCase()
+            const droppedWord = dropSlotsMap.get(slot.id)
+            const correctWord = wordsInAnswer[index]
+
+            if (wordNormalizer(droppedWord) === wordNormalizer(correctWord)) {
+                slot.classList.add(styles["correct-answer"])
+                console.log(`правильный ответ: ${droppedWord}`)
+                console.log(dropSlotsMap)
+                console.log(wordsInAnswer)
+                console.log(`сравниваю ${wordNormalizer(droppedWord)} с ${wordNormalizer(correctWord)}`)
+            } else {
+                slot.classList.add(styles["wrong-answer"])
+                console.log(`неправильный ответ: ${droppedWord}`)
+            }
+        })
+    }
+
+    checkAnswerButton.addEventListener("click", checkAnswer)
+
+    taskContainer.append(taskAnswerContainer, answerOptionsContainer, checkAnswerButton)
     return taskContainer
 }
 
