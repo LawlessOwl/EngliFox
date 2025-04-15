@@ -1,14 +1,8 @@
 import { elementCreator } from "../element-creator/elementCreator.js";
 import { appRouter } from "../../App.js"
 import styles from "./styles/mainPage.module.css"
-/*
-TODO
-Что сделать?
-В первую очередь заняться навигацией
-Потом сделаю логику с заданиями
-1) убрать поведение ссылок по умолчанию
-2) потом добавить переход на нужную страницу
-*/
+import { renderTasks } from "./englishTasks/englishTasks.js";
+
 const navMenuRedirect = (e, route) => {
     e.preventDefault()
     appRouter.navigate(route)
@@ -45,6 +39,7 @@ export const renderMain = () => {
 
 
     const mainPageContent = elementCreator("div", "main-page-content")
+    mainPageContent.append(renderTasks())
 
     mainPageBody.append(sidebar, mainPageContent)
     mainPageContainer.append(pageHeader, mainPageBody)
