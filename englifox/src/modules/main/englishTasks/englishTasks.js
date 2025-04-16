@@ -1,6 +1,7 @@
 import { appRouter } from "../../../App"
 import { elementCreator } from "../../element-creator/elementCreator"
 import { renderTranslateTask } from "./TasksTypes/translateTask/translateTask"
+import {initializeTask} from "./components/taskInitializer/taskinitializer.js"
 
 export const tasksLibrary = {
     food: {
@@ -38,7 +39,7 @@ export const renderTasks = () => {
     }
 
     const createTask = (taskInfo) => {
-        const task = renderTranslateTask(taskInfo)
+        const task = initializeTask(taskInfo)
         return task
     }
 

@@ -45,3 +45,11 @@
 .wrong-answer {
     background-color: lightcoral;
 }
+
+.option-slot-empty {
+    border: 1px dashed #000;
+    width: 80px;
+    height: 40px;
+    background-color: #f3f3f3;
+    border-radius: 6px;
+}
