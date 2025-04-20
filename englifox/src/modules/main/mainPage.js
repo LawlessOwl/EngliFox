@@ -1,7 +1,7 @@
-import { elementCreator } from "../element-creator/elementCreator.js";
+import { elementCreator } from "../utils/element-creator/elementCreator.js";
 import { appRouter } from "../../App.js"
 import styles from "./styles/mainPage.module.css"
-import { renderTasks } from "./englishTasks/englishTasks.js";
+import { renderTasks } from "./englishTasks/initTask.js";
 
 const navMenuRedirect = (e, route) => {
     e.preventDefault()

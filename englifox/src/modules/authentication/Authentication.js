@@ -1,5 +1,5 @@
 import { appRouter } from "../../App.js"
-import { elementCreator } from "../element-creator/elementCreator.js"
+import { elementCreator } from "../utils/element-creator/elementCreator.js"
 
 class AuthForm {
     constructor(type) {

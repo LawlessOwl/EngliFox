@@ -1,7 +1,7 @@
 import { renderAuth } from "./modules/authentication/Authentication.js"
-import { elementCreator } from "./modules/element-creator/elementCreator.js"
+import { elementCreator } from "./modules/utils/element-creator/elementCreator.js"
 import { renderMain } from "./modules/main/mainPage.js"
-import { Router } from "./modules/router/router.js"
+import { Router } from "./modules/utils/router/router.js"
 
 
 
