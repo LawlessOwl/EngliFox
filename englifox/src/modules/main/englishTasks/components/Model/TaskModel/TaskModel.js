@@ -26,7 +26,7 @@ export class TaskModel {
 
         const ruSlots = this.taskInfo.pairs.map(pair => pair.ru)
         const enSlots = this.taskInfo.pairs.map(pair => pair.en)
-        
+
         this.shuffledRuSlots = shuffleArray(ruSlots)
         this.shuffledEnSlots = shuffleArray(enSlots)
     }
@@ -105,5 +105,16 @@ export class TaskModel {
 
     getRemainingOptions() {
         return this.taskInfo.answerOptions.filter(option => !this.getCurrentAnswerWords().includes(option))
+    }
+
+    isTaskCompleted() {
+        const taskType = this.taskInfo.type
+        if (taskType === "translate" || taskType === "audition") {
+            return this.wordsInAnswer.length === this.getCurrentAnswerWords().length
+        }
+        if (taskType === "pairs") {
+            return this.taskInfo.pairs.every(pair => this.isMatched(pair.ru) && this.isMatched(pair.en))
+        }
+        return false
     }
 }

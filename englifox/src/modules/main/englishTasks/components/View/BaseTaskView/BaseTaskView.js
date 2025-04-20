@@ -8,6 +8,17 @@ export class BaseTaskView {
         this.taskContainer = null
     }
 
+    createCheckAnswerButton() {
+        const checkAnswerButton = elementCreator("button", styles["check-answer-button"], "Проверить ответ")
+        checkAnswerButton.addEventListener("click", () => {
+            this.controller.checkAnswer()
+            if (typeof this.onCheckAnswerCallback === "function") {
+                this.onCheckAnswerCallback()
+            }
+        })
+        return checkAnswerButton
+    }
+
     render() {
         this.taskContainer = elementCreator("div", styles["task-container"])
         const taskContent = elementCreator("div", styles["task-content"])
@@ -17,12 +28,9 @@ export class BaseTaskView {
         this.answerContainer = elementCreator("div", styles["answer-container"])
         this.answerOptionsContainer = elementCreator("div", styles["answer-options-container"])
 
-        const checkAnswerButton = elementCreator("button", styles["check-answer-button"], "Проверить ответ")
-        checkAnswerButton.addEventListener("click", () => {
-            this.controller.checkAnswer()
-        })
+        this.checkAnswerButton = this.createCheckAnswerButton()
 
-        this.taskContainer.append(taskContent, this.answerContainer, this.answerOptionsContainer, checkAnswerButton)
+        this.taskContainer.append(taskContent, this.answerContainer, this.answerOptionsContainer, this.checkAnswerButton)
 
         this.renderAnswerContainer()
         this.renderAnswerOptions()

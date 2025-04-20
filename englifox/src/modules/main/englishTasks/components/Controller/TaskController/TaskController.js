@@ -95,11 +95,11 @@ export class TaskController {
                     this.view.higlightPairs(ru, en, result)
                 }
             });
-        }
-
-        const allPairsMatched = this.model.taskInfo.pairs.every(pair => this.model.isMatched(pair.ru) && this.model.isMatched(pair.en))
-        if (allPairsMatched) {
-            console.log("Все пары совпали")
+            const allPairsMatched = this.model.taskInfo.pairs.every(pair => this.model.isMatched(pair.ru) && this.model.isMatched(pair.en))
+            if (allPairsMatched) {
+                console.log("Все пары совпали")
+                this.view.onCheckAnswerCallback()
+            }
         }
     }
 }

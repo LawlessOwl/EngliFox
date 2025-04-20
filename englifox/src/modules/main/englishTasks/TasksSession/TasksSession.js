@@ -16,13 +16,40 @@ export class TasksSession {
 
         const taskFactory = new TaskFactory(currentTask)
         const view = taskFactory.taskView
+        const controller = taskFactory.taskController
         const taskElement = view.render()
         
         this.container.append(taskElement)
 
         const nextButton = elementCreator("button", "next-task-button", "Следущая задача")
-        nextButton.addEventListener("click", () => this.nextTask())
+        nextButton.disabled = true
         this.container.append(nextButton)
+
+        view.onCheckAnswerCallback = () => {
+            if(taskFactory.taskModel.isTaskCompleted()) {
+                nextButton.disabled = false
+            }
+        }
+
+        if (["translate", "audition"].includes(currentTask.type)) {
+            const dropSlotsState = controller.model.updateDropSlot.bind(controller.model)
+            controller.model.updateDropSlot = (id, word) => {
+                dropSlotsState(id, word)
+            }
+            const removeDropSlot = controller.model.removeFromDropSlot.bind(controller.model)
+            controller.model.removeFromDropSlot = (id) => {
+                removeDropSlot(id)
+            }
+        }
+
+        if(currentTask.type === "pairs") {
+            const bindHandleWordClick = controller.handleWordClick.bind(controller)
+            controller.handleWordClick = (word, slotElement) => {
+                bindHandleWordClick(word, slotElement)
+            }
+        }
+
+        nextButton.addEventListener("click", () => this.nextTask())
     }
 
     nextTask() {
