@@ -1,11 +1,14 @@
 import { appRouter } from "../../../../App.js"
 import { elementCreator } from "../../../utils/element-creator/elementCreator.js"
+import { markTaskAsCompleted } from "../../../utils/taskStateUpdate/taskStateUpdate.js"
 import { TaskFactory } from "../components/TaskFactory/TaskFactory.js"
 
 export class TasksSession {
-    constructor(tasksArray, container) {
+    constructor(tasksArray, container, themeName, subtaskName) {
         this.tasks = tasksArray
         this.container = container
+        this.themeName = themeName
+        this.subtaskName = subtaskName
         this.currentTaskId = 0
         this.renderCurrentTask()
     }
@@ -63,10 +66,15 @@ export class TasksSession {
 
     renderResults() {
         this.container.innerHTML = ""
+
+        markTaskAsCompleted(this.themeName, this.subtaskName)
+
         const resultsContainer = elementCreator("div", "results-container")
         const resultsText = elementCreator("p", "results-text", "Вы прошли тест!")
         const backToMenuButton = elementCreator("button", "back-to-menu-button", "Назад в меню")
+
         backToMenuButton.addEventListener("click", () => appRouter.navigate("/"))
+        
         resultsContainer.append(resultsText)
         this.container.append(resultsContainer, backToMenuButton)
     }

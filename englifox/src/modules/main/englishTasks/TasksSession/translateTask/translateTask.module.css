@@ -53,3 +53,17 @@
     background-color: #f3f3f3;
     border-radius: 6px;
 }
+
+.subtask.completed {
+    opacity: 0.5;
+    position: relative;
+}
+
+.subtask.completed::after {
+    content: "✅";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: green;
+    font-weight: bold;
+}
