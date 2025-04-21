@@ -1,13 +1,19 @@
 import { appRouter } from "../../App.js"
 import { elementCreator } from "../utils/element-creator/elementCreator.js"
+import { auth } from "../utils/firebase/firebase.js"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { FirebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js"
+
+const firebaseService = new FirebaseService()
 
 class AuthForm {
     constructor(type) {
         this.form = elementCreator("form", `${type}-form`)
-
-        this.usernameInput = elementCreator("input", `${type}-username-input`)
-        this.usernameInput.type = "text"
-        this.usernameInput.placeholder = "Введите ваше имя пользователя"
+        this.emailInput = elementCreator("input", `${type}-email-input`)
+        this.emailInput.type = "email"
+        this.emailInput.placeholder = "Введите ваш имейл"
+        
 
         this.passwordInput = elementCreator("input", `${type}-password-input`)
         this.passwordInput.type = "password"
@@ -16,15 +22,15 @@ class AuthForm {
         this.sendFormButton = elementCreator("button", `${type}-send-form`, "Отправить")
         this.sendFormButton.type = "submit"
 
-        this.form.append(this.usernameInput, this.passwordInput, this.sendFormButton)
+        this.form.append(this.emailInput, this.passwordInput, this.sendFormButton)
     }
 
     validateUserInputs() {
-        const username = this.usernameInput.value.trim()
+        const email = this.emailInput.value.trim()
         const password = this.passwordInput.value.trim()
         if (
-            username !== "" && 
-            username.length >= 6 && 
+            email !== "" && 
+            email.length >= 6 && 
             password !== "" && 
             password.length >= 6
             ) {
@@ -34,39 +40,28 @@ class AuthForm {
         }
     }
 
-    checkUserInfo() {
-        const userDataFromStorage = localStorage.getItem("userInfo")
-        if (!userDataFromStorage) return false 
-
-        const userInfo = JSON.parse(userDataFromStorage)
-        return(
-            this.usernameInput.value === userInfo.username && 
-            this.passwordInput.value === userInfo.userPassword
-        )
-    }
-
     getForm() {
         return this.form
     }
 }
 
 class RegistrationForm extends AuthForm {
-        constructor() {
-            super("registration")
-            this.emailInput = elementCreator("input", "email-input")
-            this.emailInput.type = "email"
-            this.emailInput.placeholder = "Введите ваш имейл"
-            this.form.prepend(this.emailInput)
+    constructor() {
+        super("registration")
+        this.usernameInput = elementCreator("input", `username-input`)
+        this.usernameInput.type = "text"
+        this.usernameInput.placeholder = "Введите ваше имя пользователя"
+        this.form.prepend(this.usernameInput)
 
-            this.emailInput.addEventListener("input", () => this.validateUserInputs())
-            this.usernameInput.addEventListener("input", () => this.validateUserInputs())
-            this.passwordInput.addEventListener("input", () => this.validateUserInputs())
-            this.form.addEventListener("submit", (e) => this.sendUserInfo(e))
-        }
-        validateUserInputs() {
-            const email = this.emailInput.value.trim()
-            const username = this.usernameInput.value.trim()
-            const password = this.passwordInput.value.trim()
+        this.emailInput.addEventListener("input", () => this.validateUserInputs())
+        this.usernameInput.addEventListener("input", () => this.validateUserInputs())
+        this.passwordInput.addEventListener("input", () => this.validateUserInputs())
+        this.form.addEventListener("submit", (e) => this.sendUserInfo(e))
+    }
+    validateUserInputs() {
+        const email = this.emailInput.value.trim()
+        const username = this.usernameInput.value.trim()
+        const password = this.passwordInput.value.trim()
         if (
             email !== "" && 
             email.length > 6 && 
@@ -80,47 +75,79 @@ class RegistrationForm extends AuthForm {
         } else {
             this.sendFormButton.setAttribute("disabled", "true")
         }
-        }
+    }
 
-        sendUserInfo(e) {
-            e.preventDefault()
-        
-            let isUserAlreadyExist = this.checkUserInfo()
-            if (isUserAlreadyExist) {
-                return
-            } 
-            let userInfoObj = {
-                userEmail: this.emailInput.value,
-                username: this.usernameInput.value,
-                userPassword: this.passwordInput.value
+    sendUserInfo(e) {
+        e.preventDefault()
+
+        const email = this.emailInput.value.trim()
+        const username = this.usernameInput.value.trim()
+        const password = this.passwordInput.value.trim()
+
+
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user
+            const userId = user.uid
+
+            const userInfo = {
+                username,
+                email,
+                password,
+                points: 0,
+                completedTasks: {},
             }
-            
-            localStorage.setItem("userInfo", JSON.stringify(userInfoObj))
+
+            return firebaseService.writeUserData(userId, userInfo)
+        })
+        .then(() => {
+            console.log(`Пользователь ${username} успешно зарегистрирован`)
             this.emailInput.value = ""
             this.usernameInput.value = ""
             this.passwordInput.value = ""
             super.validateUserInputs()
-        }
+        })
+        .catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            console.log(`Проблема проблема: ${errorCode} - ${errorMessage}`)
+        })
+    }
 }
 
 class LoginForm extends AuthForm {
     constructor() {
         super("login")
-        this.usernameInput.addEventListener("input", () => this.validateUserInputs())
+        this.emailInput.addEventListener("input", () => this.validateUserInputs())
         this.passwordInput.addEventListener("input", () => this.validateUserInputs())
 
         this.form.addEventListener("submit", (e) => this.authStatus(e))
     }
     authStatus(e) {
-            e.preventDefault()
-            const testErrDiv = elementCreator("div", "err", "err")
-            let isUserInputsCorrect = this.checkUserInfo()
-            if (isUserInputsCorrect) {
+        e.preventDefault()
+
+        const email = this.emailInput.value.trim()
+        const password = this.passwordInput.value.trim()
+
+        signInWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+            const user = userCredential.user
+
+            const userProfile = await firebaseService.readUserData(user.uid)
+
+            if (userProfile) {
                 appRouter.navigate("/home")
             } else {
-                document.body.append(testErrDiv)
+                console.log("Пользователь не найден")
             }
-        }
+        })
+        .catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            const errorElement = elementCreator("p", "error-message", `${errorCode} - ${errorMessage}`)
+            authWindow.append(errorElement)
+        })
+    }
 }
 
 export const renderAuth = () => {
