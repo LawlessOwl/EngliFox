@@ -7,9 +7,8 @@ const tasksLibraryResponce = await fetch("/taskLibrary/taskLibrary.json")
 const jsonTasksLibrary = await tasksLibraryResponce.json()
 const tasksLibrary = jsonTasksLibrary.taskLibrary
 
-
-
 export const renderTasks = () => {
+    const contentContainer = elementCreator("div", "content-container")
     const taskWrapper = elementCreator("div", "task-wrapper")
     const themeContainer = elementCreator("div", "theme-container")
     const subtaskContainer = elementCreator("div", "subtask-container")
@@ -77,5 +76,6 @@ export const renderTasks = () => {
 
     const tasksWrapper = elementCreator("div", "task-wrapper")
     tasksWrapper.append(themeContainer, subtaskContainer, taskWrapper)
-    return tasksWrapper
+    contentContainer.append(tasksWrapper)
+    return contentContainer
 }

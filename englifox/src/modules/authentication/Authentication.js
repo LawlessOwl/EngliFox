@@ -3,9 +3,7 @@ import { elementCreator } from "../utils/element-creator/elementCreator.js"
 import { auth } from "../utils/firebase/firebase.js"
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { FirebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js"
-
-const firebaseService = new FirebaseService()
+import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js"
 
 class AuthForm {
     constructor(type) {
@@ -116,7 +114,7 @@ class RegistrationForm extends AuthForm {
 }
 
 class LoginForm extends AuthForm {
-    constructor() {
+    constructor(auth) {
         super("login")
         this.emailInput.addEventListener("input", () => this.validateUserInputs())
         this.passwordInput.addEventListener("input", () => this.validateUserInputs())
@@ -144,14 +142,14 @@ class LoginForm extends AuthForm {
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
-            const errorElement = elementCreator("p", "error-message", `${errorCode} - ${errorMessage}`)
-            authWindow.append(errorElement)
+            const errorElement = elementCreator("p", "eroor-element", `произошла ошибочка: ${errorCode} - ${errorMessage}`)
+            this.form.append(errorElement)
         })
     }
 }
 
 export const renderAuth = () => {
-    const authWindow = elementCreator("div", "authentication-window")
+const authWindow = elementCreator("div", "authentication-window")
 
 const goToRegistrationButton = elementCreator("button", "registration-button", "Регистрация")
 

@@ -1,5 +1,3 @@
-import { elementCreator } from "../element-creator/elementCreator.js"
-
 export class Router {
     constructor(routes) {
         this.routes = routes;
@@ -26,4 +24,3 @@ export class Router {
         this.handleRoute(path)
     }
 }
-

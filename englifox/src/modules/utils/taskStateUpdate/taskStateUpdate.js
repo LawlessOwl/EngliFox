@@ -1,22 +1,26 @@
-const COMPLETED_TASKS = "completedTasks"
+import { firebaseService } from "../firebase/FirebaseService/FirebaseService.js"
 
-export const getCompletedTasks = () => {
-    return JSON.parse(localStorage.getItem(COMPLETED_TASKS)) || {}
+export const getCompletedTasks = async(userId) => {
+    const user = await firebaseService.readUserData(userId)
+    return user?.completedTasks || {}
 }
 
-export const markTaskAsCompleted = (themeName, subtaskName) => {
-    let completedTasks = getCompletedTasks()
-    if (Array.isArray(completedTasks)) completedTasks = {}
-    if (!completedTasks[themeName]) completedTasks[themeName] = []
-    if (!completedTasks[themeName].includes(subtaskName)) {
+export const markTaskAsCompleted = async(userId, themeName, subtaskName) => {
+    if (!subtaskName) return
+    
+    const completedTasks = await getCompletedTasks(userId)
+    if(!completedTasks[themeName]) {
+        completedTasks[themeName] = []
+    }
+
+    if(!completedTasks[themeName].includes(subtaskName)) {
         completedTasks[themeName].push(subtaskName)
-        localStorage.setItem(COMPLETED_TASKS, JSON.stringify(completedTasks))
-        console.log("ufterupdate:", completedTasks)
+
+        await firebaseService.updateUserData(userId, {completedTasks})
     }
 }
 
-export const isTaskCompleted = (themeName, subtaskName) => {
-    const completedTasks = getCompletedTasks()
-    console.log("completedTasks", completedTasks)
-    return completedTasks[themeName]?.includes(subtaskName)
+export const isTaskCompleted = async(userId, themeName, subtaskName) => {
+    const completedTasks = await getCompletedTasks(userId)
+    return completedTasks[themeName]?.includes(subtaskName) || false
 }

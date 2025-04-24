@@ -2,6 +2,7 @@ import { elementCreator } from "../utils/element-creator/elementCreator.js";
 import { appRouter } from "../../App.js"
 import styles from "./styles/mainPage.module.css"
 import { renderTasks } from "./englishTasks/initTask.js";
+import { renderUsersRating } from "./usersRating/usersRating.js";
 
 const navMenuRedirect = (e, route) => {
     e.preventDefault()
@@ -22,7 +23,7 @@ const createNavButton = (text) => {
     return(button)
 }
 
-export const renderMain = () => {
+export const renderMain = (page = "home") => {
     const mainPageContainer = elementCreator("div", styles["main-page-container"])
     const mainPageBody = elementCreator("div", styles["main-page-body"])
 
@@ -37,11 +38,21 @@ export const renderMain = () => {
    
     sidebar.append(homePageButton, ratingPageButton, settingsPageButton, logoutButton)
 
+    const pageContent = elementCreator("div", "page-content")
 
-    const mainPageContent = elementCreator("div", "main-page-content")
-    mainPageContent.append(renderTasks())
+    switch (page) {
+        case "home":
+            pageContent.append(renderTasks())
+            break
+        case "rating":
+            pageContent.append(renderUsersRating())
+            break
+        default:
+            pageContent.append(renderTasks())
+            break
+    }
 
-    mainPageBody.append(sidebar, mainPageContent)
+    mainPageBody.append(sidebar, pageContent)
     mainPageContainer.append(pageHeader, mainPageBody)
     return mainPageContainer
 }
