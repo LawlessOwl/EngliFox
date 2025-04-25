@@ -1,19 +1,112 @@
-import { confirmModal } from "../../utils/confirm-modal/confirm-modal";
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { appRouter } from "../../../App";
+import { ConfirmModal } from "../../utils/confirm-modal/confirm-modal";
 import { elementCreator } from "../../utils/element-creator/elementCreator";
 import { firebaseService } from "../../utils/firebase/FirebaseService/FirebaseService";
 
-export const renderSettings = () => {
-    const settingsContainer = elementCreator("div", "settings-container")
-    const settingsForm = elementCreator("form", "settings-form")
-    const settingsTitle = elementCreator("h2", "settings-title", "Settings")
-    const settingsSubtitle = elementCreator("p", "settings-subtitle", "Change your account settings")
-    const changeUsernameButton = elementCreator("button", "change-username-button", "Change username")
-    const changePasswordButton = elementCreator("button", "change-password-button", "Change password")
-    const logoutButton = elementCreator("button", "logout-button", "Logout")
-    const deleteAccountButton = elementCreator("button", "delete-account-button", "Delete account")
+export class SettingsPage {
+    constructor(userId) {
+        this.userId = userId
+        this.container = elementCreator("div", "settings-page")
+        this.form = elementCreator("form", "settings-form")
+        this.render()
+    }
 
-    settingsForm.append(settingsTitle, settingsSubtitle, changeUsernameButton, changePasswordButton, logoutButton, deleteAccountButton)
-    settingsContainer.append(settingsForm)
-    return settingsContainer
+    render() {
+        const formHeader = elementCreator("h2", "form-header", "Настройки")
+        const subtitle = elementCreator("p",  "subtitle", "Здесь вы можете сменить настройки аккаунта")
+
+        const changeUsernameButton = elementCreator("button", "change-username-button", "Сменить имя пользователя")
+        const changePasswordButton = elementCreator("button", "change-password-button", "Сменить пароль")
+        const resetAccountProgressButton = elementCreator("button", "reset-account-progress-button", "Сбросить прогресс")
+        const deleteAccountButton = elementCreator("button", "delete-account-button", "Удалить аккаунт")
+
+        changeUsernameButton.addEventListener("click", (e) => this.handleChangeUsernameButtonClick(e))
+        changePasswordButton.addEventListener("click", (e) => this.handleChangePasswordButtonClick(e))
+        resetAccountProgressButton.addEventListener("click", (e) => this.handleResetAccountProgressButtonClick(e))
+        deleteAccountButton.addEventListener("click", (e) => this.handleDeleteAccountButtonClick(e))
+
+        this.form.append(formHeader, subtitle, changeUsernameButton, changePasswordButton, resetAccountProgressButton, deleteAccountButton)
+        this.container.append(this.form)
+    }
+
+    async handleChangeUsernameButtonClick(e) {
+        e.preventDefault()
+        const modal = new ConfirmModal({ message: "Вы уверены, что хотите изменить имя пользователя?" })
+        const isConfirmed = await modal.showModal()
+        if(!isConfirmed) return
+
+        const newUsername = prompt("Введите новое имя пользователя")
+        if(newUsername) {
+            const user = await firebaseService.readUserData(this.userId)
+            await firebaseService.updateUserData(this.userId, {
+                ...user,
+                username: newUsername
+            })
+        }
+    }
+
+    async handleChangePasswordButtonClick(e) {
+        e.preventDefault()
+        const modal = new ConfirmModal({ message: "Вы уверены, что хотите изменить пароль?" })
+        const isConfirmed = await modal.showModal()
+        if(!isConfirmed) return
+
+        const newPassword = prompt("Введите новый пароль")
+        if(newPassword) {
+            const auth = firebaseService.getAuth()
+            const currentUser = auth.currentUser
+            const oldPassword = prompt("Введите старый пароль для подтверждения сммены пароля")
+            if (currentUser) {
+                try {
+                    const credential = EmailAuthProvider.credential(currentUser.email, oldPassword)
+                    await reauthenticateWithCredential(currentUser, credential)
+
+                    await updatePassword(currentUser, newPassword)
+                    alert("Пароль успешно изменен")
+
+                    const userData = await firebaseService.readUserData(this.userId)
+                    console.log(userData)
+                    
+                    await firebaseService.updateUserData(this.userId, {
+                        ...userData,
+                        password: newPassword
+                    })
+                } catch (error) {
+                    if (error.code === "auth/wrong-password") {
+                        alert("Неверный пароль")
+                    } else {
+                        console.log(`Ошибка: ${error.message}`)
+                    }
+                }
+            }
+        }       
+    }
+
+    async handleResetAccountProgressButtonClick(e) {
+        e.preventDefault()
+        const modal = new ConfirmModal({ message: "Вы уверены, что хотите сбросить прогресс?" })
+        const isConfirmed = await modal.showModal()
+        if(!isConfirmed) return
+
+        await firebaseService.resetUserProgress(this.userId)
+        const message = elementCreator("p", "message", "Прогресс успешно сброшен")
+        this.form.append(message)
+        setTimeout(() => message.remove(), 2000)
+    }
+
+    async handleDeleteAccountButtonClick(e) {
+        e.preventDefault()
+        const modal = new ConfirmModal({ message: "Вы уверены, что хотите удалить аккаунт?" })
+        const isConfirmed = await modal.showModal()
+        if(!isConfirmed) return
+
+        await firebaseService.deleteUserData(this.userId)
+        appRouter.navigate("/")
+    }
+
+    getContainer() {
+        return this.container
+    }
 }
     

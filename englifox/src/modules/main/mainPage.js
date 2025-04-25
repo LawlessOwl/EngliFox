@@ -3,6 +3,8 @@ import { appRouter } from "../../App.js"
 import styles from "./styles/mainPage.module.css"
 import { renderTasks } from "./englishTasks/initTask.js";
 import { renderUsersRating } from "./usersRating/usersRating.js";
+import { SettingsPage } from "./settingsPage/settingsPage.js";
+import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js";
 
 const navMenuRedirect = (e, route) => {
     e.preventDefault()
@@ -40,18 +42,26 @@ export const renderMain = (page = "home") => {
 
     const pageContent = elementCreator("div", "page-content")
 
-    switch (page) {
-        case "home":
-            pageContent.append(renderTasks())
-            break
-        case "rating":
-            pageContent.append(renderUsersRating())
-            break
-        default:
-            pageContent.append(renderTasks())
-            break
-    }
+    const renderPageContent = async (page) => {
+        switch (page) {
+            case "home":
+                pageContent.append(renderTasks())
+                break
+            case "rating":
+                pageContent.append(renderUsersRating())
+                break
+            case "settings":
+                const userId = await firebaseService.getUserId()
+                const settingsPage = new SettingsPage(userId)
+                pageContent.append(settingsPage.container)
+                break
+            default:
+                pageContent.append(renderTasks())
+                break
+        }
+    } 
 
+    renderPageContent(page)
     mainPageBody.append(sidebar, pageContent)
     mainPageContainer.append(pageHeader, mainPageBody)
     return mainPageContainer

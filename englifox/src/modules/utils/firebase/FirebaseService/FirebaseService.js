@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { auth, database } from "../firebase.js";
 import { ref, set, get, update, remove } from "firebase/database";
 
@@ -28,9 +28,25 @@ export class FirebaseService {
         return update(userRef, data);
     }
 
-    deleteUserData(userId) {
-        const userRef = ref(this.database, "users/" + userId);
-        return remove(userRef)
+    async deleteUserData(userId) {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const password = prompt("Пожалуйста введите ваш пароль для подтверждения удаления аккаунта:");
+        
+        try {
+            const credential = EmailAuthProvider.credential(user.email, password);
+            await reauthenticateWithCredential(user, credential);
+
+            const userRef = ref(this.database, "users/" + userId);
+            await remove(userRef);
+            
+            await user.delete()
+
+            allert("Аккаунт успешно удален");
+        } catch (error) {
+            console.error("Ошибка при удалении пользователя:", error);
+            return false;
+        }
     }
 
     readAllUsers() {
@@ -55,6 +71,19 @@ export class FirebaseService {
                 }
             })
         })
+    }
+
+    resetUserProgress(userId) {
+        const userRef = ref(this.database, "users/" + userId);
+        return update(userRef, {
+            completedTasks: {},
+            completedThemes: {},
+            points: 0
+        })
+    }
+
+    getAuth() {
+        return auth;
     }
 }
 

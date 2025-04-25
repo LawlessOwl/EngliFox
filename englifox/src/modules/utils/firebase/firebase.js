@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth";
+import { getAuth, getIdToken } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,7 +16,7 @@ const firebaseConfig = {
   storageBucket: "englifox.firebasestorage.app",
   messagingSenderId: "470065586903",
   appId: "1:470065586903:web:672faf300daf70889fc692",
-  measurementId: "G-TMGETS6BR3"
+  measurementId: "G-TMGETS6BR3",
 };
 
 // Initialize Firebase

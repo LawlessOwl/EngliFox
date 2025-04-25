@@ -1,6 +1,6 @@
 import { elementCreator } from "../../utils/element-creator/elementCreator.js"
 import { TasksSession } from "./TasksSession/TasksSession.js"
-import { confirmModal } from "../../utils/confirm-modal/confirm-modal.js"
+import { ConfirmModal } from "../../utils/confirm-modal/confirm-modal.js"
 import { markTaskAsCompleted, isTaskCompleted } from "../../utils/taskStateUpdate/taskStateUpdate.js"
 
 const tasksLibraryResponce = await fetch("/taskLibrary/taskLibrary.json")
@@ -32,23 +32,18 @@ export const renderTasks = () => {
             new TasksSession(tasks, taskWrapper, themeName, subtaskName)
         }
 
-        if(isTaskCompleted(themeName, subtaskName)) {
-            confirmModal(`Хотите снова пройти "${subtaskName}"?`)
-            .then(userConfirmed => {
-                if(userConfirmed) {
-                    stratTask()
-                }
-            })
-            return
-        } else {
-            confirmModal(`Вы уверены, что хотите начать задание "${subtaskName}"?`)
-            .then(userConfirmed => {
-                if(userConfirmed) {
-                    stratTask()
-                }
-            })
-            return
+        const showConfirmModal = async (text) => {
+            const confirmModal = new ConfirmModal({ message: text})
+            return confirmModal.showModal()
         }
+
+        const confrirmModalMessage = isTaskCompleted(themeName, subtaskName) ? `Вы хотите пройти задание "${subtaskName}" заново?` : `Вы уверены, что хотите начать задание "${subtaskName}"?`
+
+        showConfirmModal(confrirmModalMessage).then((confirm) => {
+            if(confirm) {
+                stratTask()
+            }
+        })
     }
 
     const createTheme = (themeName) => {
