@@ -59,7 +59,7 @@ export class TaskModel {
     }
 
     checkPairsMatch(firstWord, secondWord) {
-        return this.taskInfo.pairs.some(pair => 
+        return this.taskInfo.pairs.some(pair =>
         (pair.ru === firstWord && pair.en === secondWord) ||
         (pair.ru === secondWord && pair.en === firstWord)
         )

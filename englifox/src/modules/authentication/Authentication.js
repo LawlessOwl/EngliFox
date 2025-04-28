@@ -1,23 +1,23 @@
-import { appRouter } from "../../App.js"
-import { elementCreator } from "../utils/element-creator/elementCreator.js"
-import { auth } from "../utils/firebase/firebase.js"
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { appRouter } from "../../App.js";
+import { elementCreator } from "../utils/element-creator/elementCreator.js";
+import { auth } from "../utils/firebase/firebase.js";
+import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js";
+import styles from "./Authentication.module.css";
 
 class AuthForm {
     constructor(type) {
-        this.form = elementCreator("form", `${type}-form`)
-        this.emailInput = elementCreator("input", `${type}-email-input`)
+        this.form = elementCreator("form", styles[`${type}-form`])
+        this.emailInput = elementCreator("input", styles[`${type}-email-input`])
         this.emailInput.type = "email"
         this.emailInput.placeholder = "Введите ваш имейл"
-        
 
-        this.passwordInput = elementCreator("input", `${type}-password-input`)
+
+        this.passwordInput = elementCreator("input", styles[`${type}-password-input`])
         this.passwordInput.type = "password"
         this.passwordInput.placeholder = "Введите ваш пароль"
 
-        this.sendFormButton = elementCreator("button", `${type}-send-form`, "Отправить")
+        this.sendFormButton = elementCreator("button", styles[`${type}-send-form`], "Отправить")
         this.sendFormButton.type = "submit"
 
         this.form.append(this.emailInput, this.passwordInput, this.sendFormButton)
@@ -27,9 +27,9 @@ class AuthForm {
         const email = this.emailInput.value.trim()
         const password = this.passwordInput.value.trim()
         if (
-            email !== "" && 
-            email.length >= 6 && 
-            password !== "" && 
+            email !== "" &&
+            email.length >= 6 &&
+            password !== "" &&
             password.length >= 6
             ) {
             this.sendFormButton.removeAttribute("disabled")
@@ -46,7 +46,7 @@ class AuthForm {
 class RegistrationForm extends AuthForm {
     constructor() {
         super("registration")
-        this.usernameInput = elementCreator("input", `username-input`)
+        this.usernameInput = elementCreator("input", styles[`username-input`])
         this.usernameInput.type = "text"
         this.usernameInput.placeholder = "Введите ваше имя пользователя"
         this.form.prepend(this.usernameInput)
@@ -61,12 +61,12 @@ class RegistrationForm extends AuthForm {
         const username = this.usernameInput.value.trim()
         const password = this.passwordInput.value.trim()
         if (
-            email !== "" && 
-            email.length > 6 && 
+            email !== "" &&
+            email.length > 6 &&
             email.includes("@") &&
-            username !== "" && 
-            username.length >= 6 && 
-            password !== "" && 
+            username !== "" &&
+            username.length >= 6 &&
+            password !== "" &&
             password.length >= 6
             ) {
             this.sendFormButton.removeAttribute("disabled")
@@ -140,26 +140,24 @@ class LoginForm extends AuthForm {
             }
         })
         .catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            const errorElement = elementCreator("p", "eroor-element", `произошла ошибочка: ${errorCode} - ${errorMessage}`)
+            const errorElement = elementCreator("p", styles["error-element"], `произошла ошибочка: введите правильный email и пароль`)
             this.form.append(errorElement)
         })
     }
 }
 
 export const renderAuth = () => {
-const authWindow = elementCreator("div", "authentication-window")
+const authWindow = elementCreator("div", styles["authentication-window"])
 
-const goToRegistrationButton = elementCreator("button", "registration-button", "Регистрация")
+const goToRegistrationButton = elementCreator("button", styles["registration-button"], "Регистрация")
 
-const goToLoginButton = elementCreator("button", "login-button", "Войти")
+const goToLoginButton = elementCreator("button", styles["login-button"], "Войти")
 
-const registrationModalWindow = elementCreator("div", "registration-modal-window", null, {
+const registrationModalWindow = elementCreator("div", styles["registration-modal-window"], null, {
     display: "none"
 })
 
-const loginModalWindow = elementCreator("div", "login-modal-window", null, {
+const loginModalWindow = elementCreator("div", styles["login-modal-window"], null, {
     display: "none"
 })
 

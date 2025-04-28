@@ -1,0 +1,225 @@
+.content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    width: 100%;
+    min-height: 50vh;
+    max-height: 80vh;
+    max-width: 80rem;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(0.625em);
+    border-radius: 1rem;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.task-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 50rem;
+    position: relative;
+}
+
+.theme-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.subtask-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+}
+
+.subtask {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    min-width: 12rem;
+    max-width: 15rem;
+    text-align: center;
+}
+
+.subtask:hover {
+    background: rgba(249, 203, 139, 0.9);
+    box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subtask.completed {
+    background: rgba(200, 230, 201, 0.8);
+    text-decoration: line-through;
+}
+
+.subtask-name {
+    font-size: 1.25rem;
+    color: #6a4cff;
+    font-weight: bold;
+}
+
+.theme {
+    background: rgba(255, 236, 210, 0.7);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: relative;
+    min-width: 12rem;
+    max-width: 15rem;
+    z-index: 2;
+}
+
+.theme:hover {
+    background: rgba(249, 203, 139, 0.9);
+    box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.theme-name {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #ff7043;
+    text-align: center;
+}
+
+.theme::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 0.125em;
+    bottom: -2rem;
+    height: 2rem;
+    background-color: rgba(106, 76, 255, 0.5);
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.subtask-container::after{
+    content: "";
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    width: 0.125em;
+    height: 2rem;
+    background-color: rgba(106, 76, 255, 0.5);
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.theme.link-line-visible::after,
+.subtask-container.link-line-visible::after {
+    opacity: 1;
+}
+
+
+@media (max-width: 768px) {
+    .content-container {
+        padding: 1rem;
+        min-height: auto;
+        max-height: 70vh;
+        width: 90%;
+        margin-top: 1rem;
+    }
+
+    .theme.link-line-visible::after,
+    .subtask-container.link-line-visible::after {
+        opacity: 0;
+    }
+
+    .task-wrapper {
+        gap: 1.5rem;
+        max-width: 100%;
+    }
+
+    .theme-container {
+        gap: 0.5rem;
+    }
+
+    .subtask-container {
+        gap: 0.5rem;
+    }
+
+    .subtask {
+        font-size: 1rem;
+        padding: 0.75rem 0.5rem;
+        min-width: 10rem;
+        max-width: 12rem;
+    }
+
+    .theme {
+        font-size: 1.25rem;
+        padding: 0.75rem 1rem;
+        min-width: 10rem;
+        max-width: 12rem;
+    }
+
+    .theme-name {
+        font-size: 1.5rem;
+    }
+
+    .subtask-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-container {
+        padding: 0.5rem;
+    }
+
+    .task-wrapper {
+        gap: 1rem;
+        max-width: 100%;
+    }
+
+    .theme-container {
+        gap: 0.25rem;
+    }
+
+    .subtask-container {
+        gap: 0.25rem;
+    }
+
+    .subtask {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.25rem;
+        min-width: 8rem;
+        max-width: 10rem;
+    }
+
+    .theme {
+        font-size: 1rem;
+        padding: 0.5rem 0.75rem;
+        min-height: 1rem;
+        max-width: 10rem;
+    }
+
+    .theme-name {
+        font-size: 1.25rem;
+    }
+
+    .subtask-name {
+        font-size: 0.875rem;
+    }
+}

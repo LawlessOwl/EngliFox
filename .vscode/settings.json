@@ -1,0 +1,86 @@
+{
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "variable",
+        "settings": { "foreground": "#FF7F50" }
+      },
+      {
+        "scope": "entity.name.function",
+        "settings": { "foreground": "#FFA07A" }
+      },
+      {
+        "scope": "keyword",
+        "settings": { "foreground": "#FF69B4" }
+      },
+      {
+        "scope": "string",
+        "settings": { "foreground": "#DA70D6" }
+      },
+      {
+        "scope": "constant.numeric",
+        "settings": { "foreground": "#BA55D3" }
+      },
+      {
+        "scope": "punctuation",
+        "settings": { "foreground": "#FF85A2" }
+      },
+      {
+        "scope": "keyword.operator",
+        "settings": { "foreground": "#FFD700" }
+      },
+      {
+        "scope": "comment",
+        "settings": { "foreground": "#9370DB", "fontStyle": "italic" }
+      },
+      {
+        "scope": "entity.name.type.class",
+        "settings": { "foreground": "#DDA0DD" }
+      },
+      {
+        "scope": "variable.language.this",
+        "settings": { "foreground": "#FF6347" }
+      },
+      {
+        "scope": "keyword.control.new",
+        "settings": { "foreground": "#FF8C00" }
+      },
+      {
+        "scope": "keyword.control.import, keyword.control.export",
+        "settings": { "foreground": "#FFC125" }
+      }
+    ]
+  },
+  "workbench.colorCustomizations": {
+    "editor.background": "#2D1B4A",
+    "editor.foreground": "#F8F8FF",
+    "editor.lineHighlightBackground": "#3E275E",
+    "editor.selectionBackground": "#5D3FD3",
+    "editor.selectionHighlightBackground": "#6A5ACD88",
+    "editorCursor.foreground": "#FF8C00",
+    "editorError.foreground": "#FF5555",
+    "editorWarning.foreground": "#FFA500",
+    "editorInfo.foreground": "#BA55D3",
+    "editorHint.foreground": "#FFD700",
+    "editorWhitespace.foreground": "#5C4B7B",
+    "editorIndentGuide.background1": "#4B3B79",
+    "editorIndentGuide.activeBackground1": "#6A5ACD"
+  },
+  "editor.fontFamily": "'Fira Code', 'JetBrains Mono', Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 15,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "smooth",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "boundary",
+  "editor.smoothScrolling": true,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "window.zoomLevel": 0
+}

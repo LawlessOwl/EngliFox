@@ -12,6 +12,7 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
-    "firebase": "^11.6.0"
+    "firebase": "^11.6.0",
+    "normalize.css": "^8.0.1"
   }
 }

@@ -1,6 +1,6 @@
 import { renderAuth } from "./modules/authentication/Authentication.js"
-import { elementCreator } from "./modules/utils/element-creator/elementCreator.js"
 import { renderMain } from "./modules/main/mainPage.js"
+import { elementCreator } from "./modules/utils/element-creator/elementCreator.js"
 import { Router } from "./modules/utils/router/router.js"
 
 const routes = {

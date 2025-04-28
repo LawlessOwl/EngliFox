@@ -2,9 +2,10 @@ import { appRouter } from "../../../../App.js"
 import { elementCreator } from "../../../utils/element-creator/elementCreator.js"
 import { firebaseService } from "../../../utils/firebase/FirebaseService/FirebaseService.js"
 import { getCompletedTasks, markTaskAsCompleted } from "../../../utils/taskStateUpdate/taskStateUpdate.js"
+import { getAllSubtasksForTheme, isThemeCompleted, markThemeAsCompleted } from "../../../utils/taskStateUpdate/themeStateUpdate.js"
+import { addPointsToUser, calculateUserPoints } from "../../../utils/userPointsManager/userPointsManager.js"
 import { TaskFactory } from "../components/TaskFactory/TaskFactory.js"
-import { calculateUserPoints ,addPointsToUser } from "../../../utils/userPointsManager/userPointsManager.js"
-import { isThemeCompleted, markThemeAsCompleted, getAllSubtasksForTheme, getCompletedThemes } from "../../../utils/taskStateUpdate/themeStateUpdate.js"
+import styles from "./styles/TasksSession.module.css"
 
 export class TasksSession {
     constructor(tasksArray, container, themeName, subtaskName) {
@@ -24,7 +25,7 @@ export class TasksSession {
         this.userId = userId
         console.log(this.userId)
     }
-    
+
     renderCurrentTask() {
         this.container.innerHTML = ""
         const currentTask = this.tasks[this.currentTaskId]
@@ -33,10 +34,10 @@ export class TasksSession {
         const view = taskFactory.taskView
         const controller = taskFactory.taskController
         const taskElement = view.render()
-        
+
         this.container.append(taskElement)
 
-        const nextButton = elementCreator("button", "next-task-button", "Следущая задача")
+        const nextButton = elementCreator("button", styles["next-task-button"], "Следущая задача")
         nextButton.disabled = true
         this.container.append(nextButton)
 
@@ -121,13 +122,13 @@ export class TasksSession {
                 }
             }
         }
-        
-        const resultsContainer = elementCreator("div", "results-container")
-        const resultsText = elementCreator("p", "results-text", "Вы прошли тест!")
-        const backToMenuButton = elementCreator("button", "back-to-menu-button", "Назад в меню")
+
+        const resultsContainer = elementCreator("div", styles["results-container"])
+        const resultsText = elementCreator("p", styles["results-text"], "Вы прошли тест!")
+        const backToMenuButton = elementCreator("button", styles["back-to-menu-button"], "Назад в меню")
 
         backToMenuButton.addEventListener("click", () => appRouter.navigate("/home"))
-        
+
         resultsContainer.append(resultsText)
         this.container.append(resultsContainer, backToMenuButton)
     }

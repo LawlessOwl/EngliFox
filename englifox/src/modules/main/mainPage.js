@@ -1,10 +1,11 @@
+import { navMenuButtonsSVG } from "../../../public/navMenuIconsSVG/navMenuIconsSVG.js";
+import { appRouter } from "../../App.js";
 import { elementCreator } from "../utils/element-creator/elementCreator.js";
-import { appRouter } from "../../App.js"
-import styles from "./styles/mainPage.module.css"
-import { renderTasks } from "./englishTasks/initTask.js";
-import { renderUsersRating } from "./usersRating/usersRating.js";
-import { SettingsPage } from "./settingsPage/settingsPage.js";
 import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js";
+import { renderTasks } from "./englishTasks/initTask.js";
+import { SettingsPage } from "./settingsPage/settingsPage.js";
+import styles from "./styles/mainPage.module.css";
+import { renderUsersRating } from "./usersRating/usersRating.js";
 
 const navMenuRedirect = (e, route) => {
     e.preventDefault()
@@ -12,7 +13,14 @@ const navMenuRedirect = (e, route) => {
 }
 
 const createNavButton = (text) => {
-    const button = elementCreator("button", styles["nav-menu-button"], text)
+    const button = elementCreator("button", styles["nav-menu-button"])
+
+    const buttonIcon = elementCreator("span", styles["nav-menu-button-icon"])
+    buttonIcon.innerHTML = `${navMenuButtonsSVG[text]} `
+    button.append(buttonIcon)
+
+    const buttonText = elementCreator("span", styles["nav-menu-button-text"], text)
+    button.append(buttonText)
 
     if (text === "logout") {
         button.addEventListener("click", (e) => {
@@ -37,10 +45,10 @@ export const renderMain = (page = "home") => {
     const ratingPageButton = createNavButton("rating")
     const settingsPageButton = createNavButton("settings")
     const logoutButton = createNavButton("logout")
-   
+
     sidebar.append(homePageButton, ratingPageButton, settingsPageButton, logoutButton)
 
-    const pageContent = elementCreator("div", "page-content")
+    const pageContent = elementCreator("div", styles["page-content"])
 
     const renderPageContent = async (page) => {
         switch (page) {
@@ -59,7 +67,7 @@ export const renderMain = (page = "home") => {
                 pageContent.append(renderTasks())
                 break
         }
-    } 
+    }
 
     renderPageContent(page)
     mainPageBody.append(sidebar, pageContent)

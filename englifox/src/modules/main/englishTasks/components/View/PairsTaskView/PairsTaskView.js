@@ -1,6 +1,6 @@
 import { elementCreator } from "../../../../../utils/element-creator/elementCreator";
+import styles from "../../styles/pairs.module.css";
 import { BaseTaskView } from "../BaseTaskView/BaseTaskView";
-import styles from "../PairsTaskView/styles/PairsTaskStyles.module.css"
 
 export class PairsTaskView extends BaseTaskView {
     constructor(model, controller) {
@@ -50,18 +50,24 @@ export class PairsTaskView extends BaseTaskView {
 
     clearHighlights() {
         this.slotElements.forEach((slot, word) => {
+            slot.classList.remove(styles["active-slot"])
+
             if(!this.model.isMatched(word)) {
-                slot.classList.remove(styles["correct-pair"], styles["wrong-pair"], styles["active-slot"])
+                slot.classList.remove(styles["correct-pair"], styles["wrong-pair"])
             } else {
                 slot.classList.remove(styles["wrong-pair"])
             }
         })
     }
 
+    highlightActiveSlot(slotElement) {
+        slotElement.classList.add(styles["active-slot"])
+    }
+
     higlightPairs(firstWord, secondWord, isCorrect) {
         const firstSlot = this.slotElements.get(firstWord)
         const secondSlot = this.slotElements.get(secondWord)
-        
+
         if (!firstSlot || ! secondSlot) return
 
         const classNameByResult = isCorrect ? styles["correct-pair"] : styles["wrong-pair"]

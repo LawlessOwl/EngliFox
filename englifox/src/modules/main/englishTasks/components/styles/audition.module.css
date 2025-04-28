@@ -1,7 +1,7 @@
 .task-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   align-items: center;
 }
 
@@ -190,7 +190,7 @@
 
     .answer-option {
         font-size: 0.7rem;
-        width: 2.5rem;
+        width: 2.75rem;
         height: 1.75rem;
         padding: 0.25rem;
     }

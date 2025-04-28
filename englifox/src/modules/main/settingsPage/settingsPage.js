@@ -3,23 +3,24 @@ import { appRouter } from "../../../App";
 import { ConfirmModal } from "../../utils/confirm-modal/confirm-modal";
 import { elementCreator } from "../../utils/element-creator/elementCreator";
 import { firebaseService } from "../../utils/firebase/FirebaseService/FirebaseService";
+import styles from "./styles/settingsPage.module.css";
 
 export class SettingsPage {
     constructor(userId) {
         this.userId = userId
-        this.container = elementCreator("div", "settings-page")
-        this.form = elementCreator("form", "settings-form")
+        this.container = elementCreator("div", styles["settings-page"])
+        this.form = elementCreator("form", styles["settings-form"])
         this.render()
     }
 
     render() {
-        const formHeader = elementCreator("h2", "form-header", "Настройки")
-        const subtitle = elementCreator("p",  "subtitle", "Здесь вы можете сменить настройки аккаунта")
+        const formHeader = elementCreator("h2", styles["form-header"], "Настройки")
+        const subtitle = elementCreator("p",  styles["subtitle"], "Здесь вы можете сменить настройки аккаунта")
 
-        const changeUsernameButton = elementCreator("button", "change-username-button", "Сменить имя пользователя")
-        const changePasswordButton = elementCreator("button", "change-password-button", "Сменить пароль")
-        const resetAccountProgressButton = elementCreator("button", "reset-account-progress-button", "Сбросить прогресс")
-        const deleteAccountButton = elementCreator("button", "delete-account-button", "Удалить аккаунт")
+        const changeUsernameButton = elementCreator("button", styles["change-username-button"], "Сменить имя пользователя")
+        const changePasswordButton = elementCreator("button", styles["change-password-button"], "Сменить пароль")
+        const resetAccountProgressButton = elementCreator("button", styles["reset-account-progress-button"], "Сбросить прогресс")
+        const deleteAccountButton = elementCreator("button", styles["delete-account-button"], "Удалить аккаунт")
 
         changeUsernameButton.addEventListener("click", (e) => this.handleChangeUsernameButtonClick(e))
         changePasswordButton.addEventListener("click", (e) => this.handleChangePasswordButtonClick(e))
@@ -67,7 +68,7 @@ export class SettingsPage {
 
                     const userData = await firebaseService.readUserData(this.userId)
                     console.log(userData)
-                    
+
                     await firebaseService.updateUserData(this.userId, {
                         ...userData,
                         password: newPassword
@@ -80,7 +81,7 @@ export class SettingsPage {
                     }
                 }
             }
-        }       
+        }
     }
 
     async handleResetAccountProgressButtonClick(e) {
@@ -90,7 +91,7 @@ export class SettingsPage {
         if(!isConfirmed) return
 
         await firebaseService.resetUserProgress(this.userId)
-        const message = elementCreator("p", "message", "Прогресс успешно сброшен")
+        const message = elementCreator("p", styles["message"], "Прогресс успешно сброшен")
         this.form.append(message)
         setTimeout(() => message.remove(), 2000)
     }
@@ -109,4 +110,3 @@ export class SettingsPage {
         return this.container
     }
 }
-    

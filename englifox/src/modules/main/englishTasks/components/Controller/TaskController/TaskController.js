@@ -1,5 +1,5 @@
 import { textToSpeak } from "../../../../../utils/text-to-speak/text-to-speak";
-import styles from "../../styles/task.module.css"
+import styles from "../../styles/task.module.css";
 
 export class TaskController {
     constructor(model, view) {
@@ -12,9 +12,10 @@ export class TaskController {
 
         const result = this.model.selectPairSlot(word)
 
+        this.view.clearHighlights()
+
         if (result.waiting) {
-            this.view.clearHighlights()
-            slotElement.classList.add("active-slot")
+            this.view.highlightActiveSlot(slotElement)
         } else {
             this.view.clearHighlights()
             this.view.higlightPairs(result.first, result.second, result.resultPairs)
@@ -23,6 +24,61 @@ export class TaskController {
 
     playAudio() {
         textToSpeak(this.model.taskInfo.content, this.model.taskInfo.lang)
+    }
+
+
+    enableWordClickEvents(optionSlotElement) {
+        optionSlotElement.addEventListener("click", (e) => {
+            const word = optionSlotElement.textContent
+            if (!word) return
+
+            if (this.view.optionsSlotsMap.has(optionSlotElement.id)) {
+                const emptySlot = Array.from(this.view.dropSlotsMap.values()).find((slot) => slot.isEmpty)
+
+                if (emptySlot) {
+                    emptySlot.textContent = word
+                    emptySlot.isEmpty = false
+
+                    this.model.updateDropSlot(emptySlot.id, word)
+
+                    optionSlotElement.textContent = ""
+                    optionSlotElement.classList.add(styles["option-slot-empty"])
+                    optionSlotElement.isEmpty = true
+
+                    this.model.answerOptions = this.model.answerOptions.filter((option) => option !== word)
+
+                    this.view.renderAnswerOptions()
+                    this.view.optionsSlotsMap.forEach((slot) => {
+                        if (slot.textContent && !slot.draggable) {
+                            slot.draggable = true
+                            slot.enableDragEvents(slot)
+                        }
+                    })
+                }
+            }
+
+            if (this.view.dropSlotsMap.has(optionSlotElement.id)) {
+                const wordInDropSlot = optionSlotElement.textContent
+                if (!wordInDropSlot) return
+
+                const emptyOptionSlot = Array.from(this.view.optionsSlotsMap.values()).find((slot) => !slot.isEmpty)
+
+                if (emptyOptionSlot) {
+                    emptyOptionSlot.textContent = wordInDropSlot
+                    emptyOptionSlot.classList.remove(styles["option-slot-empty"])
+                    emptyOptionSlot.isEmpty = false
+
+                    optionSlotElement.textContent = ""
+                    optionSlotElement.isEmpty = true
+
+                    this.model.removeFromDropSlot(optionSlotElement.id)
+                    this.model.answerOptions.push(wordInDropSlot)
+
+                    this.view.renderAnswerOptions()
+                }
+            }
+
+        })
     }
 
     enableDropEvents(dropSlot) {
@@ -86,7 +142,7 @@ export class TaskController {
         if (taskType === "translate" || taskType === "audition") {
             const result = this.model.checkAnswer()
             this.view.changeDropSlotsColorByAnswer(result)
-        } 
+        }
         if (taskType === "pairs") {
             this.model.taskInfo.pairs.forEach(pair => {
                 const {ru, en} = pair
