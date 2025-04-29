@@ -1,8 +1,10 @@
 import { elementCreator } from "../../utils/element-creator/elementCreator"
 import { firebaseService } from "../../utils/firebase/FirebaseService/FirebaseService"
+import { LoadingModal } from "../../utils/loadingModal/loadingModal"
 import styles from "./styles/userRating.module.css"
 
 export const renderUsersRating = () => {
+    const loadingModal = new LoadingModal()
 
     const usersRatingContainer = elementCreator("div", styles["users-rating-container"])
     const usersRatingTitle = elementCreator("h2", styles["users-rating-title"], "Рейтинг пользователей")
@@ -19,6 +21,7 @@ export const renderUsersRating = () => {
     usersRatingTable.append(usersRatingTableHeader, usersRatingTableBody)
     usersRatingContainer.append(usersRatingTitle, usersRatingTable)
 
+    loadingModal.show()
     firebaseService.readAllUsers()
     .then(usersMap => {
         const usersArray = Object.entries(usersMap)
@@ -37,9 +40,11 @@ export const renderUsersRating = () => {
             tr.append(tdUserPosition, tdUsername, tdUserScore)
             usersRatingTableBody.append(tr)
         })
+        loadingModal.hide()
     })
     .catch(error => {
         console.log(error)
+        loadingModal.hide()
     })
 
     return usersRatingContainer

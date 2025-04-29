@@ -1,6 +1,7 @@
 import { appRouter } from "../../../../App.js"
 import { elementCreator } from "../../../utils/element-creator/elementCreator.js"
 import { firebaseService } from "../../../utils/firebase/FirebaseService/FirebaseService.js"
+import { LoadingModal } from "../../../utils/loadingModal/loadingModal.js"
 import { getCompletedTasks, markTaskAsCompleted } from "../../../utils/taskStateUpdate/taskStateUpdate.js"
 import { getAllSubtasksForTheme, isThemeCompleted, markThemeAsCompleted } from "../../../utils/taskStateUpdate/themeStateUpdate.js"
 import { addPointsToUser, calculateUserPoints } from "../../../utils/userPointsManager/userPointsManager.js"
@@ -78,47 +79,40 @@ export class TasksSession {
     }
 
     async renderResults() {
+        const loadingModal = new LoadingModal()
+        loadingModal.show()
         this.container.innerHTML = ""
 
         await markTaskAsCompleted(this.userId, this.themeName, this.subtaskName)
-        console.log(`Задание "${this.subtaskName}" завершено`)
 
         const subtaskPointsToAdd = calculateUserPoints({
             tasks: this.tasks.length,
-            subtusk: true,
+            subtask: true,
             theme: false
         })
-        console.log(`Начисленно за subtask:  ${subtaskPointsToAdd}`)
         await addPointsToUser(this.userId, subtaskPointsToAdd)
 
         const allSubtasks = await getAllSubtasksForTheme(this.themeName)
-        console.log(`All subtasks: ${allSubtasks}`)
         const completedTasks = await getCompletedTasks(this.userId)
-        console.log(`Completed tasks: ${completedTasks}`)
         const userCompletedTasks = completedTasks[this.themeName] || []
-        console.log(`User completed tasks: ${userCompletedTasks}`)
 
         const allSubtasksCompleted = allSubtasks.length > 0 && allSubtasks.every(subtask => userCompletedTasks.includes(subtask))
-        console.log(`Current subtasks completed: ${allSubtasksCompleted}`)
 
         if (allSubtasksCompleted) {
 
             const isThemeCompletedBefore = await isThemeCompleted(this.userId, this.themeName)
-            console.log(`Is theme completed before: ${isThemeCompletedBefore}`)
 
             if  (!isThemeCompletedBefore) {
 
                 const themeMarker = await markThemeAsCompleted(this.userId, this.themeName)
-                console.log(`Theme marker: ${themeMarker}`)
 
                 if (themeMarker) {
                     const pointsToAdd = calculateUserPoints({
                         tasks: 0,
-                        subtusk: false,
+                        subtask: false,
                         theme: true
                     })
                     await addPointsToUser(this.userId, pointsToAdd)
-                    console.log(`Начисленно за тему:  ${pointsToAdd}`)
                 }
             }
         }
@@ -131,5 +125,6 @@ export class TasksSession {
 
         resultsContainer.append(resultsText)
         this.container.append(resultsContainer, backToMenuButton)
+        loadingModal.hide()
     }
 }

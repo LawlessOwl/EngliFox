@@ -19,13 +19,6 @@ export const renderTasks = () => {
         const theme = tasksLibrary[themeName]
         const subtasks = Object.keys(theme)
 
-        if (subtasks.length > 0) {
-            themeContainer.querySelectorAll(`.${styles["theme-name"]}`).forEach((themeElement) => {
-                themeElement.classList.remove(styles["link-line-visible"])
-            })
-            subtaskContainer.classList.add(styles["link-line-visible"])
-        }
-
         subtasks.forEach((subtaskName) => {
             const subtaskElement = createSubtask(themeName, subtaskName)
             subtaskElement.addEventListener("click", () => handleSubtaskClick(themeName, subtaskName))

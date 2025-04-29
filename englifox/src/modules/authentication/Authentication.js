@@ -3,6 +3,7 @@ import { appRouter } from "../../App.js";
 import { elementCreator } from "../utils/element-creator/elementCreator.js";
 import { auth } from "../utils/firebase/firebase.js";
 import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js";
+import { LoadingModal } from "../utils/loadingModal/loadingModal.js";
 import styles from "./Authentication.module.css";
 
 class AuthForm {
@@ -19,6 +20,8 @@ class AuthForm {
 
         this.sendFormButton = elementCreator("button", styles[`${type}-send-form`], "Отправить")
         this.sendFormButton.type = "submit"
+
+        this.LoadingModal = new LoadingModal()
 
         this.form.append(this.emailInput, this.passwordInput, this.sendFormButton)
     }
@@ -78,6 +81,8 @@ class RegistrationForm extends AuthForm {
     sendUserInfo(e) {
         e.preventDefault()
 
+        this.LoadingModal.show()
+
         const email = this.emailInput.value.trim()
         const username = this.usernameInput.value.trim()
         const password = this.passwordInput.value.trim()
@@ -110,6 +115,9 @@ class RegistrationForm extends AuthForm {
             const errorMessage = error.message
             console.log(`Проблема проблема: ${errorCode} - ${errorMessage}`)
         })
+        .finally(() => {
+            this.LoadingModal.hide()
+        })
     }
 }
 
@@ -123,6 +131,8 @@ class LoginForm extends AuthForm {
     }
     authStatus(e) {
         e.preventDefault()
+
+        this.LoadingModal.show()
 
         const email = this.emailInput.value.trim()
         const password = this.passwordInput.value.trim()
@@ -142,6 +152,9 @@ class LoginForm extends AuthForm {
         .catch((error) => {
             const errorElement = elementCreator("p", styles["error-element"], `произошла ошибочка: введите правильный email и пароль`)
             this.form.append(errorElement)
+        })
+        .finally(() => {
+            this.LoadingModal.hide()
         })
     }
 }

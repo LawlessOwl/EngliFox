@@ -20,6 +20,7 @@ export class AuditionTaskView extends BaseTaskView {
     }
 
     renderQuestion() {
+
         const questionContainer = elementCreator("div", styles["question-container"])
 
         const playQuestionButton = elementCreator("button", styles["play-question-button"], "Прослушать")

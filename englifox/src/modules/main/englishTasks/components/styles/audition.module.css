@@ -6,197 +6,239 @@
 }
 
 .task-content {
-    font-size: 1.75rem;
-    font-weight: bold;
-    color: #6a4cff;
-    text-align: center;
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #6a4cff;
+  text-align: center;
+  display: none;
+}
+
+.task-content-text {
+  display: none;
 }
 
 .answer-options-container {
-    max-width: 40rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
+  max-width: 40rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .drop-slot {
-    width: 6rem;
-    height: 3rem;
-    background: rgba(255, 255, 255, 0.6);
-    border: 0.125em dashed #6a4cff;
-    border-radius: 0.75rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3 ease, border-color 0.3s ease;
+  width: 6rem;
+  height: 3rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 0.125em dashed #6a4cff;
+  border-radius: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3 ease, border-color 0.3s ease;
 }
 
 .option-slot-empty {
-    background: linear-gradient(135deg, #6a4cff, #9575cd);
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.25rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, background 0.3s ease;
+  background: linear-gradient(135deg, #6a4cff, #9575cd);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .drop-slot {
-    transition: transform 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .answer-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .task-answer-input {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1.25rem;
-    border: 0.125em solid #6a4cff;
-    border-radius: 0.75rem;
-    background: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
-    transition: border-color 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.25rem;
+  border: 0.125em solid #6a4cff;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.play-question-button {
+  background: linear-gradient(135deg, #6a4cff, #9575cd);
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
+}
+
+.question-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .answer-option {
-    width: 6rem;
-    height: 3rem;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #6a4cff, #9575cd);
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.25rem;
-    border-radius: 1rem;
-    cursor: grab;
-    user-select: none;
-    box-shadow: 0 0.3em 0.5em rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 6rem;
+  height: 3rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #6a4cff, #9575cd);
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.25rem;
+  border-radius: 1rem;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 0.3em 0.5em rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .correct-answer {
-    background: linear-gradient(135deg, #81c784, #a5d6a7)
+  background: linear-gradient(135deg, #81c784, #a5d6a7);
 }
 
 .wrong-answer {
-    background: linear-gradient(135deg, #e57373, #ef9a9a)
+  background: linear-gradient(135deg, #e57373, #ef9a9a);
 }
 
 .check-answer-button {
-    background: linear-gradient(135deg, #6a4cff, #9575cd);
-    color: #fff;
-    padding: 1rem 2rem;
-    font-size: 1.25rem;
-    border: none;
-    border-radius: 0.75rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #6a4cff, #9575cd);
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
 }
 
 .check-answer-button:hover {
-    background: linear-gradient(135deg, #5e35b1, #7986cb);
-    transform: translateY(-0.125em);
-    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: linear-gradient(135deg, #5e35b1, #7986cb);
+  transform: translateY(-0.125em);
+  box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
 @media (max-width: 768px) {
-    .task-container {
-        padding: 1rem;
-        max-width: 100%;
-    }
+  .task-container {
+    padding: 1rem;
+    max-width: 100%;
+  }
 
-    .task-content {
-        font-size: 1.25rem;
-    }
+  .task-content {
+    font-size: 1.25rem;
+  }
 
-    .task-answer-input {
-        width: 100%;
-        max-width: 30rem;
-        font-size: 1rem;
-        padding: 0.5rem;
-        gap: 0.5rem;
-    }
+  .task-answer-input {
+    width: 100%;
+    max-width: 30rem;
+    font-size: 1rem;
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
 
-    .answer-options-container {
-        max-width: 100%;
-        gap: 0.5rem;
-        padding: 0 1rem;
-    }
+  .play-question-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
 
-    .drop-slot {
-        width: 4.5rem;
-        height: 2.25rem;
-    }
+  .question-container {
+    padding: 1.5rem;
+    gap: 0.5rem;
+  }
 
-    .answer-option {
-        width: 4.5rem;
-        height: 2.5rem;
-        padding: 0.5rem;
-        font-size: 1rem;
-    }
+  .answer-options-container {
+    max-width: 100%;
+    gap: 0.5rem;
+    padding: 0 1rem;
+  }
 
-    .check-answer-button {
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-    }
+  .drop-slot {
+    width: 4.5rem;
+    height: 2.25rem;
+  }
+
+  .answer-option {
+    width: 4.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .check-answer-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .task-container {
-        padding: 0.5rem;
-        max-width: 100%;
-    }
+  .task-container {
+    padding: 0.5rem;
+    max-width: 100%;
+  }
 
-    .task-content {
-        font-size: 1.25rem;
-    }
+  .task-content {
+    font-size: 1.25rem;
+  }
 
-    .task-answer-input {
-        width: 100%;
-        max-width: 18rem;
-        font-size: 0.75rem;
-        padding: 0.25rem;
-        gap: 0.25rem;
-    }
+  .play-question-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
 
-    .answer-options-container {
-        max-width: 100%;
-        gap: 0.25rem;
-        padding: 0 0.25rem;
-    }
+  .question-container {
+    padding: 1rem;
+    gap: 0.25rem;
+  }
 
-    .drop-slot {
-        width: 3rem;
-        height: 1.5rem;
-        font-size: 0.8rem;
-    }
+  .task-answer-input {
+    width: 100%;
+    max-width: 18rem;
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    gap: 0.25rem;
+  }
 
-    .answer-option {
-        font-size: 0.7rem;
-        width: 2.75rem;
-        height: 1.75rem;
-        padding: 0.25rem;
-    }
+  .answer-options-container {
+    max-width: 100%;
+    gap: 0.25rem;
+    padding: 0 0.25rem;
+  }
 
-    .check-answer-button {
-        font-size: 0.8rem;
-        padding: 0.5rem 0.75rem;
-    }
+  .drop-slot {
+    width: 3rem;
+    height: 1.5rem;
+    font-size: 0.8rem;
+  }
+
+  .answer-option {
+    font-size: 0.7rem;
+    width: 2.75rem;
+    height: 1.75rem;
+    padding: 0.25rem;
+  }
+
+  .check-answer-button {
+    font-size: 0.8rem;
+    padding: 0.5rem 0.75rem;
+  }
 }

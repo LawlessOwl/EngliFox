@@ -30,7 +30,13 @@ export class BaseTaskView {
 
         this.checkAnswerButton = this.createCheckAnswerButton()
 
-        this.taskContainer.append(taskContent, this.answerContainer, this.answerOptionsContainer, this.checkAnswerButton)
+        if(this.model.taskInfo.type === "audition") {
+            this.taskContainer.append(this.answerContainer, this.answerOptionsContainer, this.checkAnswerButton)
+        } else {
+            this.taskContainer.append(taskContent, this.answerContainer, this.answerOptionsContainer, this.checkAnswerButton)
+        }
+
+
 
         this.renderAnswerContainer()
         this.renderAnswerOptions()

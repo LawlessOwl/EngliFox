@@ -1,9 +1,8 @@
-.result-container {
+.results-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    margin-top: 2rem;
     padding: 2rem;
     background: rgba(255, 236, 210, 0.6);
     border-radius: 1rem;
@@ -11,7 +10,7 @@
     backdrop-filter: blur(0.625em);
 }
 
-.result-text {
+.results-text {
     font-size : 1.75rem;
     font-weight: bold;
     color: #ff7043;
@@ -41,11 +40,11 @@
 }
 
 @media (max-width: 768px) {
-    .result-container {
+    .results-container {
         padding: 1.5rem;
     }
 
-    .result-text{
+    .results-text{
         font-size: 1.25rem;
     }
 
@@ -57,11 +56,11 @@
 }
 
 @media (max-width: 480px) {
-    .result-container {
+    .results-container {
         padding: 1rem;
     }
 
-    .result-text{
+    .results-text{
         font-size: 1rem;
     }
 

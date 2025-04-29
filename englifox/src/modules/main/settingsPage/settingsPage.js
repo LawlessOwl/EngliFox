@@ -3,7 +3,9 @@ import { appRouter } from "../../../App";
 import { ConfirmModal } from "../../utils/confirm-modal/confirm-modal";
 import { elementCreator } from "../../utils/element-creator/elementCreator";
 import { firebaseService } from "../../utils/firebase/FirebaseService/FirebaseService";
+import { LoadingModal } from "../../utils/loadingModal/loadingModal";
 import styles from "./styles/settingsPage.module.css";
+
 
 export class SettingsPage {
     constructor(userId) {
@@ -11,6 +13,7 @@ export class SettingsPage {
         this.container = elementCreator("div", styles["settings-page"])
         this.form = elementCreator("form", styles["settings-form"])
         this.render()
+        this.LoadingModal = new LoadingModal()
     }
 
     render() {
@@ -33,9 +36,13 @@ export class SettingsPage {
 
     async handleChangeUsernameButtonClick(e) {
         e.preventDefault()
+        this.LoadingModal.show()
         const modal = new ConfirmModal({ message: "Вы уверены, что хотите изменить имя пользователя?" })
         const isConfirmed = await modal.showModal()
-        if(!isConfirmed) return
+        if(!isConfirmed) {
+            this.LoadingModal.hide()
+            return
+        }
 
         const newUsername = prompt("Введите новое имя пользователя")
         if(newUsername) {
@@ -44,14 +51,19 @@ export class SettingsPage {
                 ...user,
                 username: newUsername
             })
+            this.LoadingModal.hide()
         }
     }
 
     async handleChangePasswordButtonClick(e) {
         e.preventDefault()
+        this.LoadingModal.show()
         const modal = new ConfirmModal({ message: "Вы уверены, что хотите изменить пароль?" })
         const isConfirmed = await modal.showModal()
-        if(!isConfirmed) return
+        if(!isConfirmed) {
+            this.LoadingModal.hide()
+            return
+        }
 
         const newPassword = prompt("Введите новый пароль")
         if(newPassword) {
@@ -80,23 +92,30 @@ export class SettingsPage {
                         console.log(`Ошибка: ${error.message}`)
                     }
                 }
+                this.LoadingModal.hide()
             }
         }
     }
 
     async handleResetAccountProgressButtonClick(e) {
         e.preventDefault()
+        this.LoadingModal.show()
         const modal = new ConfirmModal({ message: "Вы уверены, что хотите сбросить прогресс?" })
         const isConfirmed = await modal.showModal()
-        if(!isConfirmed) return
+        if(!isConfirmed) {
+            this.LoadingModal.hide()
+            return
+        }
 
         await firebaseService.resetUserProgress(this.userId)
+        this.LoadingModal.hide()
         const message = elementCreator("p", styles["message"], "Прогресс успешно сброшен")
         this.form.append(message)
         setTimeout(() => message.remove(), 2000)
     }
 
     async handleDeleteAccountButtonClick(e) {
+        this.LoadingModal.show()
         e.preventDefault()
         const modal = new ConfirmModal({ message: "Вы уверены, что хотите удалить аккаунт?" })
         const isConfirmed = await modal.showModal()
@@ -104,6 +123,7 @@ export class SettingsPage {
 
         await firebaseService.deleteUserData(this.userId)
         appRouter.navigate("/")
+        this.LoadingModal.hide()
     }
 
     getContainer() {
