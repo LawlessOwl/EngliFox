@@ -1,0 +1,72 @@
+.results-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: rgba(255, 236, 210, 0.6);
+    border-radius: 1rem;
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(0.625em);
+}
+
+.results-text {
+    font-size : 1.75rem;
+    font-weight: bold;
+    color: #ff7043;
+}
+
+.next-task-button,
+.back-to-menu-button{
+    background: linear-gradient(135deg, #ff7043, #ffab91);
+    color: #fff;
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.1);
+}
+
+.next-task-button:hover,
+.back-to-menu-button:hover {
+    background: linear-gradient(135deg, #ff5722, #ff8a65);
+}
+
+.next-task-button:disabled {
+    background: linear-gradient(135deg, rgb(197, 163, 163), #e2b1a2);
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .results-container {
+        padding: 1.5rem;
+    }
+
+    .results-text{
+        font-size: 1.25rem;
+    }
+
+    .next-task-button,
+    .back-to-menu-button {
+        font-size: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .results-container {
+        padding: 1rem;
+    }
+
+    .results-text{
+        font-size: 1rem;
+    }
+
+    .next-task-button,
+    .back-to-menu-button {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+}
