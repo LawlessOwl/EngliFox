@@ -1,60 +1,839 @@
 {
   "taskLibrary": {
+    "travel": {
+      "at the airport": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Where is the check-in desk?",
+            "answer": "Где стойка регистрации?",
+            "answerOptions": [
+              "Где",
+              "Стойка",
+              "Регистрации",
+              "Находится",
+              "Есть"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Your gate number is B12.",
+            "answer": "Ваш выход номер B12.",
+            "answerOptions": [
+              "Ваш",
+              "Выход",
+              "Номер",
+              "B12",
+              "А13",
+              "Самолет",
+              "Рейс"
+            ]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини слова",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Багаж", "en": "Luggage" },
+              { "ru": "Билет", "en": "Ticket" },
+              { "ru": "Паспорт", "en": "Passport" },
+              { "ru": "Регистрация", "en": "Check-in" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Пожалуйста, покажите свой паспорт.",
+            "answer": "Please show your passport.",
+            "answerOptions": [
+              "Please",
+              "Show",
+              "Your",
+              "Passport",
+              "Ticket",
+              "Boarding",
+              "Pass"
+            ]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Где мой багаж?",
+            "answer": "Where is my luggage?",
+            "answerOptions": ["Where", "Is", "My", "Luggage", "Bag", "Lost"]
+          }
+        ]
+      },
+      "booking a hotel": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "У вас есть свободные номера?",
+            "answer": "Do you have any available rooms?",
+            "answerOptions": [
+              "Do",
+              "You",
+              "Have",
+              "Any",
+              "Available",
+              "Rooms",
+              "Hotel",
+              "Booking"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "The check-out time is at noon.",
+            "answer": "Время выселения — в полдень.",
+            "answerOptions": ["Время", "Выселения", "Полдень", "Заезд", "Отель"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Найди пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Завтрак", "en": "Breakfast" },
+              { "ru": "Номер", "en": "Room" },
+              { "ru": "Ключ", "en": "Key" },
+              { "ru": "Ресепшн", "en": "Reception" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Я хотел бы забронировать номер на три ночи.",
+            "answer": "I would like to book a room for three nights.",
+            "answerOptions": [
+              "I",
+              "Would",
+              "Like",
+              "To",
+              "Book",
+              "A",
+              "Room",
+              "Three",
+              "Nights"
+            ]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Can I have a room with a view?",
+            "answer": "Могу я получить номер с видом?",
+            "answerOptions": [
+              "Can",
+              "I",
+              "Have",
+              "A",
+              "Room",
+              "With",
+              "View",
+              "Sea",
+              "City"
+            ]
+          }
+        ]
+      },
+      "ordering food": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Могу я посмотреть меню?",
+            "answer": "Can I see the menu?",
+            "answerOptions": ["Can", "I", "See", "The", "Menu", "Bill", "Dish"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "The waiter will be right with you.",
+            "answer": "Официант скоро подойдет к вам.",
+            "answerOptions": [
+              "Официант",
+              "Скоро",
+              "Подойдет",
+              "К",
+              "Вам",
+              "Меню"
+            ]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини слова",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Счет", "en": "Bill" },
+              { "ru": "Заказ", "en": "Order" },
+              { "ru": "Официант", "en": "Waiter" },
+              { "ru": "Блюдо", "en": "Dish" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Я хотел бы заказать стейк.",
+            "answer": "I would like to order a steak.",
+            "answerOptions": [
+              "I",
+              "Would",
+              "Like",
+              "To",
+              "Order",
+              "A",
+              "Steak",
+              "Salad",
+              "Soup"
+            ]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "The food is delicious.",
+            "answer": "Еда очень вкусная.",
+            "answerOptions": ["The", "Food", "Is", "Delicious", "Tasty", "Meal"]
+          }
+        ]
+      },
+      "shopping": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Сколько это стоит?",
+            "answer": "How much does it cost?",
+            "answerOptions": ["How", "Much", "Does", "It", "Cost", "Price"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Do you have it in another size?",
+            "answer": "У вас есть это в другом размере?",
+            "answerOptions": ["У", "Вас", "Есть", "В", "Другом", "Размере"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини слова",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Футболка", "en": "T-shirt" },
+              { "ru": "Куртка", "en": "Jacket" },
+              { "ru": "Обувь", "en": "Shoes" },
+              { "ru": "Размер", "en": "Size" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Я ищу подарок для друга.",
+            "answer": "I am looking for a gift for a friend.",
+            "answerOptions": [
+              "I",
+              "Am",
+              "Looking",
+              "For",
+              "A",
+              "Gift",
+              "Friend"
+            ]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Where is the fitting room?",
+            "answer": "Где примерочная?",
+            "answerOptions": [
+              "Where",
+              "Is",
+              "The",
+              "Fitting",
+              "Room",
+              "Changing",
+              "Area"
+            ]
+          }
+        ]
+      },
+      "transportation": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Где находится ближайшая станция метро?",
+            "answer": "Where is the nearest subway station?",
+            "answerOptions": [
+              "Where",
+              "Is",
+              "The",
+              "Nearest",
+              "Subway",
+              "Station",
+              "Bus",
+              "Stop"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "You need to take bus number 5.",
+            "answer": "Вам нужно сесть на автобус номер 5.",
+            "answerOptions": [
+              "Вам",
+              "Нужно",
+              "Сесть",
+              "На",
+              "Автобус",
+              "Номер",
+              "5"
+            ]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини слова",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Поезд", "en": "Train" },
+              { "ru": "Метро", "en": "Subway" },
+              { "ru": "Автобус", "en": "Bus" },
+              { "ru": "Такси", "en": "Taxi" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Сколько стоит проезд на метро?",
+            "answer": "How much is the subway fare?",
+            "answerOptions": [
+              "How",
+              "Much",
+              "Is",
+              "The",
+              "Subway",
+              "Fare",
+              "Ticket"
+            ]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Is this seat taken?",
+            "answer": "Это место занято?",
+            "answerOptions": ["Is", "This", "Seat", "Taken", "Free", "Occupied"]
+          }
+        ]
+      }
+    },
+    "daily life": {
+      "morning routine": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "I wake up at seven o'clock.",
+            "answer": "Я просыпаюсь в семь часов.",
+            "answerOptions": ["Я", "Просыпаюсь", "В", "Семь", "Часов"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Don't forget to brush your teeth.",
+            "answer": "Не забудь почистить зубы.",
+            "answerOptions": ["Не", "Забудь", "Почистить", "Зубы", "Умыться"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Завтрак", "en": "Breakfast" },
+              { "ru": "Душ", "en": "Shower" },
+              { "ru": "Одеваться", "en": "Get dressed" },
+              { "ru": "Будильник", "en": "Alarm clock" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Что ты обычно ешь на завтрак?",
+            "answer": "What do you usually eat for breakfast?",
+            "answerOptions": [
+              "What",
+              "Do",
+              "You",
+              "Usually",
+              "Eat",
+              "For",
+              "Breakfast"
+            ]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Я чищу зубы утром и вечером.",
+            "answer": "I brush my teeth in the morning and evening.",
+            "answerOptions": ["I", "Brush", "My", "Teeth", "Morning", "Evening"]
+          }
+        ]
+      },
+      "at work": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "I usually start working at nine.",
+            "answer": "Я обычно начинаю работать в девять.",
+            "answerOptions": [
+              "Я",
+              "Обычно",
+              "Начинаю",
+              "Работать",
+              "В",
+              "Девять"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Let's have a meeting at 3 PM.",
+            "answer": "Давайте проведем встречу в 3 часа дня.",
+            "answerOptions": [
+              "Давайте",
+              "Проведем",
+              "Встречу",
+              "Три",
+              "Часа",
+              "Дня"
+            ]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Найди пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Совещание", "en": "Meeting" },
+              { "ru": "Задача", "en": "Task" },
+              { "ru": "Проект", "en": "Project" },
+              { "ru": "Отчет", "en": "Report" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Пожалуйста, отправьте мне письмо.",
+            "answer": "Please send me an email.",
+            "answerOptions": ["Please", "Send", "Me", "An", "Email"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "We have a lot of work today.",
+            "answer": "У нас сегодня много работы.",
+            "answerOptions": ["We", "Have", "A", "Lot", "Of", "Work", "Today"]
+          }
+        ]
+      },
+      "at home": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Я убираюсь по выходным.",
+            "answer": "I clean the house on weekends.",
+            "answerOptions": ["I", "Clean", "The", "House", "On", "Weekends"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Please wash the dishes.",
+            "answer": "Пожалуйста, помой посуду.",
+            "answerOptions": [
+              "Пожалуйста",
+              "Помой",
+              "Посуду",
+              "Приготовь",
+              "Убери"
+            ]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Найди пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Пылесосить", "en": "Vacuum" },
+              { "ru": "Мыть посуду", "en": "Wash dishes" },
+              { "ru": "Пылесос", "en": "Vacuum cleaner" },
+              { "ru": "Готовить", "en": "Cook" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Где пульт от телевизора?",
+            "answer": "Where is the TV remote?",
+            "answerOptions": ["Where", "Is", "The", "TV", "Remote"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Я отдыхаю после работы.",
+            "answer": "I relax after work.",
+            "answerOptions": ["I", "Relax", "After", "Work"]
+          }
+        ]
+      },
+      "going out": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Давай сходим в кино.",
+            "answer": "Let's go to the cinema.",
+            "answerOptions": ["Let's", "Go", "To", "The", "Cinema"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "We can meet at the cafe.",
+            "answer": "Мы можем встретиться в кафе.",
+            "answerOptions": ["Мы", "Можем", "Встретиться", "Кафе", "Ресторан"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Кинотеатр", "en": "Cinema" },
+              { "ru": "Ресторан", "en": "Restaurant" },
+              { "ru": "Кафе", "en": "Cafe" },
+              { "ru": "Вечеринка", "en": "Party" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Are you free this evening?",
+            "answer": "Ты свободен сегодня вечером?",
+            "answerOptions": ["Are", "You", "Free", "This", "Evening"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Я опаздываю.",
+            "answer": "I am running late.",
+            "answerOptions": ["I", "Am", "Running", "Late"]
+          }
+        ]
+      },
+      "weekend activities": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "На выходных я катаюсь на велосипеде.",
+            "answer": "I ride a bike on weekends.",
+            "answerOptions": ["I", "Ride", "A", "Bike", "On", "Weekends"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "We often go hiking.",
+            "answer": "Мы часто ходим в походы.",
+            "answerOptions": ["Мы", "Часто", "Ходим", "В", "Походы"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Найди пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Поход", "en": "Hiking" },
+              { "ru": "Велосипед", "en": "Bicycle" },
+              { "ru": "Плавание", "en": "Swimming" },
+              { "ru": "Рыбалка", "en": "Fishing" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Let's have a picnic!",
+            "answer": "Давай устроим пикник!",
+            "answerOptions": ["Let's", "Have", "A", "Picnic"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Я люблю играть в настольные игры.",
+            "answer": "I love playing board games.",
+            "answerOptions": ["I", "Love", "Playing", "Board", "Games"]
+          }
+        ]
+      }
+    },
     "pets": {
+      "types of pets": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "У меня есть кошка и собака.",
+            "answer": "I have a cat and a dog.",
+            "answerOptions": ["I", "Have", "A", "Cat", "And", "A", "Dog"]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Rabbits are very cute.",
+            "answer": "Кролики очень милые.",
+            "answerOptions": ["Кролики", "Очень", "Милые", "Маленькие"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Кошка", "en": "Cat" },
+              { "ru": "Собака", "en": "Dog" },
+              { "ru": "Кролик", "en": "Rabbit" },
+              { "ru": "Попугай", "en": "Parrot" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Каких домашних животных ты любишь?",
+            "answer": "What pets do you like?",
+            "answerOptions": ["What", "Pets", "Do", "You", "Like"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "У меня нет домашних животных.",
+            "answer": "I don't have any pets.",
+            "answerOptions": ["I", "Don't", "Have", "Any", "Pets"]
+          }
+        ]
+      },
+      "taking care of pets": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Я кормлю кошку утром и вечером.",
+            "answer": "I feed the cat in the morning and evening.",
+            "answerOptions": [
+              "I",
+              "Feed",
+              "The",
+              "Cat",
+              "In",
+              "The",
+              "Morning",
+              "Evening"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Don't forget to walk the dog.",
+            "answer": "Не забудь выгулять собаку.",
+            "answerOptions": ["Не", "Забудь", "Выгулять", "Собаку"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Найди пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Кормить", "en": "Feed" },
+              { "ru": "Выгуливать", "en": "Walk" },
+              { "ru": "Купать", "en": "Bathe" },
+              { "ru": "Чистить клетку", "en": "Clean the cage" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Я купаю собаку раз в месяц.",
+            "answer": "I bathe the dog once a month.",
+            "answerOptions": ["I", "Bathe", "The", "Dog", "Once", "A", "Month"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Кошки любят, когда их гладят.",
+            "answer": "Cats love being petted.",
+            "answerOptions": ["Cats", "Love", "Being", "Petted"]
+          }
+        ]
+      },
       "funny moments": {
         "tasks": [
           {
             "id": "1",
             "type": "translate",
-            "content": "my cat is wery funny!",
-            "answer": "моя кошка очень весёлая",
-            "answerOptions": ["Моя", "Весёлая", "Очень", "Кошка", "Злая"]
+            "content": "Мой кот любит прятаться в коробках.",
+            "answer": "My cat loves hiding in boxes.",
+            "answerOptions": ["My", "Cat", "Loves", "Hiding", "In", "Boxes"]
           },
           {
             "id": "2",
-            "type": "translate",
-            "content": "Мой кролик любит спать в коробке",
-            "answer": "my rabbit loves to sleep in a box",
-            "answerOptions": [
-              "My",
-              "Rabbit",
-              "Loves",
-              "To",
-              "Sleep",
-              "In",
-              "A",
-              "Box",
-              "Bed"
-            ]
+            "type": "audition",
+            "content": "The dog chased its own tail!",
+            "answer": "Собака гонялась за своим хвостом!",
+            "answerOptions": ["Собака", "Гонялась", "За", "Своим", "Хвостом"]
           },
           {
             "id": "3",
-            "type": "audition",
-            "content": "my dog bark on a neghbours every morning",
-            "answer": "моя собака лает на соседей каждое утро",
-            "answerOptions": [
-              "Моя",
-              "Собака",
-              "Лает",
-              "На",
-              "Соседей",
-              "Каждое",
-              "Утро",
-              "Ночь"
+            "type": "pairs",
+            "content": "Соедини пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Смешной", "en": "Funny" },
+              { "ru": "Прятаться", "en": "Hide" },
+              { "ru": "Бегать", "en": "Run" },
+              { "ru": "Играть", "en": "Play" }
             ]
           },
           {
             "id": "4",
+            "type": "translate",
+            "content": "Кролик перепрыгнул через забор!",
+            "answer": "The rabbit jumped over the fence!",
+            "answerOptions": ["The", "Rabbit", "Jumped", "Over", "The", "Fence"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Моя собака любит играть с мячом.",
+            "answer": "My dog loves playing with a ball.",
+            "answerOptions": [
+              "My",
+              "Dog",
+              "Loves",
+              "Playing",
+              "With",
+              "A",
+              "Ball"
+            ]
+          }
+        ]
+      },
+      "visiting the vet": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Нам нужно отвезти кошку к ветеринару.",
+            "answer": "We need to take the cat to the vet.",
+            "answerOptions": [
+              "We",
+              "Need",
+              "To",
+              "Take",
+              "The",
+              "Cat",
+              "To",
+              "The",
+              "Vet"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Your dog needs a vaccination.",
+            "answer": "Вашей собаке нужна вакцинация.",
+            "answerOptions": ["Вашей", "Собаке", "Нужна", "Вакцинация"]
+          },
+          {
+            "id": "3",
             "type": "pairs",
-            "content": "Соедините слова",
+            "content": "Найди пары",
             "lang": "en",
             "pairs": [
-              { "ru": "собака", "en": "dog" },
-              { "ru": "кот", "en": "cat" },
-              { "ru": "кролик", "en": "rabbit" },
-              { "ru": "мышь", "en": "mouse" },
-              { "ru": "корова", "en": "cow" }
+              { "ru": "Ветеринар", "en": "Vet" },
+              { "ru": "Вакцинация", "en": "Vaccination" },
+              { "ru": "Болезнь", "en": "Illness" },
+              { "ru": "Лечение", "en": "Treatment" }
             ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Кот сломал лапу.",
+            "answer": "The cat broke its paw.",
+            "answerOptions": ["The", "Cat", "Broke", "Its", "Paw"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Собаке нужно сделать прививку.",
+            "answer": "The dog needs a shot.",
+            "answerOptions": ["The", "Dog", "Needs", "A", "Shot"]
+          }
+        ]
+      },
+      "favorite activities": {
+        "tasks": [
+          {
+            "id": "1",
+            "type": "translate",
+            "content": "Кошка любит спать на подоконнике.",
+            "answer": "The cat loves sleeping on the windowsill.",
+            "answerOptions": [
+              "The",
+              "Cat",
+              "Loves",
+              "Sleeping",
+              "On",
+              "The",
+              "Windowsill"
+            ]
+          },
+          {
+            "id": "2",
+            "type": "audition",
+            "content": "Dogs enjoy playing fetch.",
+            "answer": "Собаки любят играть в апорт.",
+            "answerOptions": ["Собаки", "Любят", "Играть", "В", "Апорт"]
+          },
+          {
+            "id": "3",
+            "type": "pairs",
+            "content": "Соедини пары",
+            "lang": "en",
+            "pairs": [
+              { "ru": "Играть в мяч", "en": "Play ball" },
+              { "ru": "Спать", "en": "Sleep" },
+              { "ru": "Прятаться", "en": "Hide" },
+              { "ru": "Гулять", "en": "Walk" }
+            ]
+          },
+          {
+            "id": "4",
+            "type": "translate",
+            "content": "Попугай обожает разговаривать.",
+            "answer": "The parrot loves talking.",
+            "answerOptions": ["The", "Parrot", "Loves", "Talking"]
+          },
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "Кролик любит есть морковь.",
+            "answer": "The rabbit loves eating carrots.",
+            "answerOptions": ["The", "Rabbit", "Loves", "Eating", "Carrots"]
           }
         ]
       }
