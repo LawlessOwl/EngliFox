@@ -5,6 +5,12 @@ export class TaskController {
     constructor(model, view) {
         this.model = model
         this.view = view
+
+        this.model.observer(this.handleModelChange.bind(this))
+    }
+
+    handleModelChange() {
+
     }
 
     handleWordClick(word, slotElement) {

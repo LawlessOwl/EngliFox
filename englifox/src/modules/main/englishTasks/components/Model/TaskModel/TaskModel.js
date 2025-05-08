@@ -11,6 +11,18 @@ export class TaskModel {
         if (this.taskInfo.type === "pairs") {
             this.initPairsTask()
         }
+
+        this.subscribers = []
+    }
+
+    observer(subscriber) {
+        this.subscribers.push(subscriber)
+    }
+
+    notifySubscribers(eventType, payload) {
+        this.subscribers.forEach(subscriber => {
+            subscriber(eventType, payload)
+        })
     }
 
     initTranslateOrAuditionTask() {
@@ -36,6 +48,7 @@ export class TaskModel {
     }
 
     checkAnswer() {
+        let result = false
         if(this.taskInfo.type === "translate" || this.taskInfo.type === "audition") {
             return this.checkTranslateOrAuditionAnswer()
         }
@@ -43,7 +56,9 @@ export class TaskModel {
         if(this.taskInfo.type === "pairs") {
             return this.checkPairsAnswer()
         }
-        return false
+
+        this.notifySubscribers("answerChecked", result)
+        return result
     }
 
     checkTranslateOrAuditionAnswer() {
@@ -68,6 +83,7 @@ export class TaskModel {
     selectPairSlot(word) {
         if (this.selectedPairSlot === null) {
             this.selectedPairSlot = word
+            this.notifySubscribers("pairSlotSelected", word)
             return {waiting: true}
         }
 
@@ -80,6 +96,12 @@ export class TaskModel {
             this.matchedPairs.add(word)
         }
 
+        this.notifySubscribers("pairChecked", {
+            waiting: false,
+            resultPairs,
+            first: selected,
+            second: word
+        })
         return {waiting: false, resultPairs, first: selected, second : word}
     }
 
@@ -93,10 +115,12 @@ export class TaskModel {
 
     updateDropSlot(id, word) {
         this.dropSlotsMap.set(id, word)
+        this.notifySubscribers("dropSlotUpdated", {id, word})
     }
 
     removeFromDropSlot(id) {
         this.dropSlotsMap.delete(id)
+        this.notifySubscribers("dropSlotRemoved", id)
     }
 
     getCurrentAnswerWords() {
