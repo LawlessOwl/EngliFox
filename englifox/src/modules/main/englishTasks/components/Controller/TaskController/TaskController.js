@@ -28,8 +28,12 @@ export class TaskController {
         }
     }
 
-    playAudio() {
-        textToSpeak(this.model.taskInfo.content, this.model.taskInfo.lang)
+    async playAudio() {
+       try {
+        await textToSpeak(this.model.taskInfo.content, this.model.taskInfo.lang)
+       } catch (error) {
+        console.error("Error playing audio:", error);
+       }
     }
 
 

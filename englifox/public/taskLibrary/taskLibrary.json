@@ -31,6 +31,7 @@
             "id": "3",
             "type": "audition",
             "content": "my dog bark on a neghbours every morning",
+            "lang": "en-US",
             "answer": "моя собака лает на соседей каждое утро",
             "answerOptions": [
               "Моя",
