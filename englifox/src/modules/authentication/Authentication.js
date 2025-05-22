@@ -26,18 +26,33 @@ class AuthForm {
         this.form.append(this.emailInput, this.passwordInput, this.sendFormButton)
     }
 
-    validateUserInputs() {
+    validateUserInputs(shouldShowErrors = false) {
         const email = this.emailInput.value.trim()
         const password = this.passwordInput.value.trim()
-        if (
-            email !== "" &&
-            email.length >= 6 &&
-            password !== "" &&
-            password.length >= 6
-            ) {
-            this.sendFormButton.removeAttribute("disabled")
+
+        const isEmailValid = email !== "" && email.length > 6 && email.includes("@")
+        const isPasswordValid = password !== "" && password.length >= 6
+
+        if (shouldShowErrors) {
+            this.showOrRemoveError(this.emailInput, "Некорректный имейл", isEmailValid)
+            this.showOrRemoveError(this.passwordInput, "Пароль должен быть длиннее 6-ти символов", isPasswordValid)
+        }
+
+        return isEmailValid && isPasswordValid
+    }
+
+    showOrRemoveError(input, errorMessage, condition) {
+        const existingErrorElement = input.parentElement.querySelector(`.${styles["input-error"]}`)
+
+        if (!condition) {
+            if (!existingErrorElement) {
+                const errorElement = elementCreator("p", styles["input-error"], errorMessage)
+                input.parentElement.append(errorElement)
+            }
         } else {
-            this.sendFormButton.setAttribute("disabled", "true")
+            if (existingErrorElement) {
+                existingErrorElement.remove()
+            }
         }
     }
 
@@ -54,32 +69,40 @@ class RegistrationForm extends AuthForm {
         this.usernameInput.placeholder = "Введите ваше имя пользователя"
         this.form.prepend(this.usernameInput)
 
-        this.emailInput.addEventListener("input", () => this.validateUserInputs())
-        this.usernameInput.addEventListener("input", () => this.validateUserInputs())
-        this.passwordInput.addEventListener("input", () => this.validateUserInputs())
         this.form.addEventListener("submit", (e) => this.sendUserInfo(e))
     }
-    validateUserInputs() {
+
+    validateUserInputs(shouldShowErrors = false) {
         const email = this.emailInput.value.trim()
         const username = this.usernameInput.value.trim()
         const password = this.passwordInput.value.trim()
-        if (
-            email !== "" &&
-            email.length > 6 &&
-            email.includes("@") &&
-            username !== "" &&
-            username.length >= 6 &&
-            password !== "" &&
-            password.length >= 6
-            ) {
-            this.sendFormButton.removeAttribute("disabled")
+
+        const isEmailValid = email !== "" && email.length > 6 && email.includes("@")
+        const isPasswordValid = password !== "" && password.length >= 6
+        const isUsernameValid = username !== "" && username.length >= 6
+
+        if (shouldShowErrors) {
+            this.showOrRemoveError(this.usernameInput, "Имя пользователя должно быть длиннее 6-ти символов", isUsernameValid)
+            this.showOrRemoveError(this.emailInput, "Имейл должен быть длиннее 6-ти символов", isEmailValid)
+            this.showOrRemoveError(this.passwordInput, "Пароль должен быть длиннее 6-ти символов", isPasswordValid)
         } else {
-            this.sendFormButton.setAttribute("disabled", "true")
+
+            this.removeAllErrors()
         }
+
+        return isEmailValid && isPasswordValid && isUsernameValid
+    }
+
+    removeAllErrors() {
+        const errorElements = this.form.querySelectorAll(`.${styles["input-error"]}`)
+        errorElements.forEach(element => element.remove())
     }
 
     sendUserInfo(e) {
         e.preventDefault()
+
+        const isValid = this.validateUserInputs(true)
+        if (!isValid) return
 
         this.LoadingModal.show()
 
@@ -108,7 +131,7 @@ class RegistrationForm extends AuthForm {
             this.emailInput.value = ""
             this.usernameInput.value = ""
             this.passwordInput.value = ""
-            super.validateUserInputs()
+            this.validateUserInputs(false)
         })
         .catch((error) => {
             const errorCode = error.code
@@ -124,13 +147,20 @@ class RegistrationForm extends AuthForm {
 class LoginForm extends AuthForm {
     constructor(auth) {
         super("login")
-        this.emailInput.addEventListener("input", () => this.validateUserInputs())
-        this.passwordInput.addEventListener("input", () => this.validateUserInputs())
 
         this.form.addEventListener("submit", (e) => this.authStatus(e))
     }
+
+    removeAllErrors() {
+        const errorElements = this.form.querySelectorAll(`.${styles["input-error"]}`)
+        errorElements.forEach(element => element.remove())
+    }
+
     authStatus(e) {
         e.preventDefault()
+
+        const isValid = this.validateUserInputs(true)
+        if (!isValid) return
 
         this.LoadingModal.show()
 
@@ -150,6 +180,11 @@ class LoginForm extends AuthForm {
             }
         })
         .catch((error) => {
+            const existingErrorElement = this.form.querySelector(`.${styles["error-element"]}`)
+            if (existingErrorElement) {
+                existingErrorElement.remove()
+            }
+
             const errorElement = elementCreator("p", styles["error-element"], `произошла ошибочка: введите правильный email и пароль`)
             this.form.append(errorElement)
         })
@@ -195,7 +230,5 @@ loginModalWindow.append(loginForm.getForm())
 
 authWindow.append(goToRegistrationButton, goToLoginButton, registrationModalWindow, loginModalWindow)
 
-registrationForm.validateUserInputs()
-loginForm.validateUserInputs()
 return authWindow
 }
