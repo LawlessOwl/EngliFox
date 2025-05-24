@@ -12,12 +12,18 @@ export const renderTasks = () => {
     const contentContainer = elementCreator("div", styles["content-container"])
     const taskWrapper = elementCreator("div", styles["task-wrapper"])
     const themeContainer = elementCreator("div", styles["theme-container"])
-    const subtaskContainer = elementCreator("div", styles["subtask-container"])
 
-    const handleThemeClick = (themeName) => {
-        subtaskContainer.innerHTML = ""
+    const handleThemeClick = (themeName, themeElement) => {
+        // Очищаем все существующие подтемы
+        document.querySelectorAll(`.${styles["subtask-container"]}`).forEach(container => {
+            container.remove()
+        })
+
         const theme = tasksLibrary[themeName]
         const subtasks = Object.keys(theme)
+
+        // Создаем контейнер для подтем
+        const subtaskContainer = elementCreator("div", styles["subtask-container"])
 
         subtasks.forEach((subtaskName) => {
             const subtaskElement = createSubtask(themeName, subtaskName)
@@ -25,20 +31,19 @@ export const renderTasks = () => {
             subtaskContainer.append(subtaskElement)
         })
 
-        const clickedThemeElement = [...themeContainer.children].find((element) => element.querySelector(`.${styles["theme-name"]}`).textContent === themeName)
-        clickedThemeElement.classList.add(styles["link-line-visible"])
+        // Вставляем контейнер с подтемами сразу после выбранной темы
+        themeElement.insertAdjacentElement('afterend', subtaskContainer)
     }
 
     const handleSubtaskClick = (themeName, subtaskName) => {
         const stratTask = () => {
             taskWrapper.innerHTML = ""
             themeContainer.innerHTML = ""
-            subtaskContainer.innerHTML = ""
-
-            themeContainer.querySelectorAll(`.${styles["theme"]}`).forEach((themeElement) => {
-                themeElement.classList.remove(styles["link-line-visible"])
+            
+            // Очищаем все контейнеры подтем
+            document.querySelectorAll(`.${styles["subtask-container"]}`).forEach(container => {
+                container.remove()
             })
-            subtaskContainer.classList.remove(styles["link-line-visible"])
 
             const tasks = tasksLibrary[themeName][subtaskName].tasks
             new TasksSession(tasks, taskWrapper, themeName, subtaskName)
@@ -59,15 +64,15 @@ export const renderTasks = () => {
     }
 
     const createTheme = (themeName) => {
-        const theme = elementCreator("div", styles["theme"])
+        const theme = elementCreator("button", styles["theme"])
         const themeNameElement = elementCreator("div", styles["theme-name"], themeName)
-        themeNameElement.addEventListener("click", () => handleThemeClick(themeName))
+        theme.addEventListener("click", () => handleThemeClick(themeName, theme))
         theme.append(themeNameElement)
         return theme
     }
 
     const createSubtask = (themeName, subtaskName) => {
-        const subtask = elementCreator("div", styles["subtask"])
+        const subtask = elementCreator("button", styles["subtask"])
         if(isTaskCompleted(themeName, subtaskName)) {
             subtask.classList.add("completed")
         }
@@ -82,7 +87,7 @@ export const renderTasks = () => {
     })
 
     const tasksWrapper = elementCreator("div", styles["task-wrapper"])
-    tasksWrapper.append(themeContainer, subtaskContainer, taskWrapper)
+    tasksWrapper.append(themeContainer, taskWrapper)
     contentContainer.append(tasksWrapper)
     return contentContainer
 }

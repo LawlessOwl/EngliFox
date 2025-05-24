@@ -6,7 +6,7 @@
           {
             "id": "1",
             "type": "translate",
-            "content": "my cat is wery funny!",
+            "content": "my cat is very funny!",
             "answer": "моя кошка очень весёлая",
             "answerOptions": ["Моя", "Весёлая", "Очень", "Кошка", "Злая"]
           },
@@ -56,6 +56,232 @@
               { "ru": "мышь", "en": "mouse" },
               { "ru": "корова", "en": "cow" }
             ]
+          }
+        ]
+      },
+      "pet care": {
+        "tasks": [
+          {
+            "id": "5",
+            "type": "translate",
+            "content": "I feed my dog twice a day",
+            "answer": "я кормлю свою собаку два раза в день",
+            "answerOptions": ["Я", "Кормлю", "Свою", "Собаку", "Два", "Раза", "В", "День", "Ночь"]
+          },
+          {
+            "id": "6",
+            "type": "audition",
+            "content": "cats need fresh water every day",
+            "lang": "en-US",
+            "answer": "кошкам нужна свежая вода каждый день",
+            "answerOptions": ["Кошкам", "Нужна", "Свежая", "Вода", "Каждый", "День", "Молоко"]
+          }
+        ]
+      }
+    },
+    "food": {
+      "cooking": {
+        "tasks": [
+          {
+            "id": "7",
+            "type": "translate",
+            "content": "Я готовлю пасту с томатным соусом",
+            "answer": "I cook pasta with tomato sauce",
+            "answerOptions": ["I", "Cook", "Pasta", "With", "Tomato", "Sauce", "Cheese", "Meat"]
+          },
+          {
+            "id": "8",
+            "type": "pairs",
+            "content": "Соедините продукты с их переводом",
+            "lang": "en",
+            "pairs": [
+              { "ru": "хлеб", "en": "bread" },
+              { "ru": "молоко", "en": "milk" },
+              { "ru": "яйца", "en": "eggs" },
+              { "ru": "мясо", "en": "meat" },
+              { "ru": "овощи", "en": "vegetables" }
+            ]
+          },
+          {
+            "id": "9",
+            "type": "audition",
+            "content": "I bake cookies in the oven",
+            "lang": "en-US",
+            "answer": "я пеку печенье в духовке",
+            "answerOptions": ["Я", "Пеку", "Печенье", "В", "Духовке", "Торт", "Микроволновке"]
+          }
+        ]
+      },
+      "restaurants": {
+        "tasks": [
+          {
+            "id": "10",
+            "type": "translate",
+            "content": "Can I have the menu, please?",
+            "answer": "можно мне меню, пожалуйста?",
+            "answerOptions": ["Можно", "Мне", "Меню", "Пожалуйста", "Счёт", "Воду"]
+          },
+          {
+            "id": "11",
+            "type": "translate",
+            "content": "Официант принёс нам счёт",
+            "answer": "the waiter brought us the bill",
+            "answerOptions": ["The", "Waiter", "Brought", "Us", "The", "Bill", "Menu", "Food"]
+          }
+        ]
+      }
+    },
+    "travel": {
+      "airport": {
+        "tasks": [
+          {
+            "id": "12",
+            "type": "translate",
+            "content": "Where is the departure gate?",
+            "answer": "где выход на посадку?",
+            "answerOptions": ["Где", "Выход", "На", "Посадку", "Багаж", "Регистрация"]
+          },
+          {
+            "id": "13",
+            "type": "pairs",
+            "content": "Соедините слова из аэропорта",
+            "lang": "en",
+            "pairs": [
+              { "ru": "самолёт", "en": "airplane" },
+              { "ru": "багаж", "en": "luggage" },
+              { "ru": "паспорт", "en": "passport" },
+              { "ru": "билет", "en": "ticket" },
+              { "ru": "регистрация", "en": "check-in" }
+            ]
+          },
+          {
+            "id": "14",
+            "type": "audition",
+            "content": "my flight is delayed for two hours",
+            "lang": "en-US",
+            "answer": "мой рейс задерживается на два часа",
+            "answerOptions": ["Мой", "Рейс", "Задерживается", "На", "Два", "Часа", "Отменён", "Три"]
+          }
+        ]
+      },
+      "hotel": {
+        "tasks": [
+          {
+            "id": "15",
+            "type": "translate",
+            "content": "Я бронирую номер на три ночи",
+            "answer": "I book a room for three nights",
+            "answerOptions": ["I", "Book", "A", "Room", "For", "Three", "Nights", "Days", "Two"]
+          },
+          {
+            "id": "16",
+            "type": "translate",
+            "content": "What time is breakfast served?",
+            "answer": "во сколько подают завтрак?",
+            "answerOptions": ["Во", "Сколько", "Подают", "Завтрак", "Обед", "Ужин"]
+          }
+        ]
+      }
+    },
+    "work": {
+      "office": {
+        "tasks": [
+          {
+            "id": "17",
+            "type": "translate",
+            "content": "I have a meeting at 3 PM",
+            "answer": "у меня встреча в 3 часа дня",
+            "answerOptions": ["У", "Меня", "Встреча", "В", "Часа", "Дня", "Утра", "Вечера"]
+          },
+          {
+            "id": "18",
+            "type": "pairs",
+            "content": "Соедините офисные предметы",
+            "lang": "en",
+            "pairs": [
+              { "ru": "компьютер", "en": "computer" },
+              { "ru": "стол", "en": "desk" },
+              { "ru": "стул", "en": "chair" },
+              { "ru": "принтер", "en": "printer" },
+              { "ru": "телефон", "en": "phone" }
+            ]
+          },
+          {
+            "id": "19",
+            "type": "audition",
+            "content": "I work from home on Fridays",
+            "lang": "en-US",
+            "answer": "я работаю из дома по пятницам",
+            "answerOptions": ["Я", "Работаю", "Из", "Дома", "По", "Пятницам", "Понедельникам", "Офисе"]
+          }
+        ]
+      },
+      "business": {
+        "tasks": [
+          {
+            "id": "20",
+            "type": "translate",
+            "content": "Нам нужно увеличить продажи",
+            "answer": "we need to increase sales",
+            "answerOptions": ["We", "Need", "To", "Increase", "Sales", "Decrease", "Costs", "Profits"]
+          },
+          {
+            "id": "21",
+            "type": "translate",
+            "content": "The project deadline is next week",
+            "answer": "срок сдачи проекта на следующей неделе",
+            "answerOptions": ["Срок", "Сдачи", "Проекта", "На", "Следующей", "Неделе", "Этой", "Месяце"]
+          }
+        ]
+      }
+    },
+    "weather": {
+      "seasons": {
+        "tasks": [
+          {
+            "id": "22",
+            "type": "translate",
+            "content": "It's snowing outside",
+            "answer": "на улице идёт снег",
+            "answerOptions": ["На", "Улице", "Идёт", "Снег", "Дождь", "Солнце"]
+          },
+          {
+            "id": "23",
+            "type": "pairs",
+            "content": "Соедините времена года",
+            "lang": "en",
+            "pairs": [
+              { "ru": "весна", "en": "spring" },
+              { "ru": "лето", "en": "summer" },
+              { "ru": "осень", "en": "autumn" },
+              { "ru": "зима", "en": "winter" }
+            ]
+          },
+          {
+            "id": "24",
+            "type": "audition",
+            "content": "the sun is shining brightly today",
+            "lang": "en-US",
+            "answer": "солнце ярко светит сегодня",
+            "answerOptions": ["Солнце", "Ярко", "Светит", "Сегодня", "Вчера", "Завтра", "Слабо"]
+          }
+        ]
+      },
+      "daily weather": {
+        "tasks": [
+          {
+            "id": "25",
+            "type": "translate",
+            "content": "Завтра будет дождь",
+            "answer": "it will rain tomorrow",
+            "answerOptions": ["It", "Will", "Rain", "Tomorrow", "Snow", "Today", "Yesterday"]
+          },
+          {
+            "id": "26",
+            "type": "translate",
+            "content": "What's the temperature today?",
+            "answer": "какая температура сегодня?",
+            "answerOptions": ["Какая", "Температура", "Сегодня", "Вчера", "Завтра", "Погода"]
           }
         ]
       }
