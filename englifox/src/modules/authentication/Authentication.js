@@ -1,5 +1,6 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword } from "firebase/auth";
 import { appRouter } from "../../App.js";
+import { ConfirmModal } from "../utils/confirm-modal/confirm-modal.js";
 import { elementCreator } from "../utils/element-creator/elementCreator.js";
 import { auth } from "../utils/firebase/firebase.js";
 import { firebaseService } from "../utils/firebase/FirebaseService/FirebaseService.js";
@@ -150,20 +151,29 @@ class RegistrationForm extends AuthForm {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user
-            const userId = user.uid
 
-            const userInfo = {
-                username,
-                email,
-                password,
-                points: 0,
-                completedTasks: {},
-            }
+            return sendEmailVerification(user).then(() => {
+                const userId = user.uid
 
-            return firebaseService.writeUserData(userId, userInfo)
+                const userInfo = {
+                    username,
+                    email,
+                    password,
+                    points: 0,
+                    completedTasks: {},
+                }
+
+                return firebaseService.writeUserData(userId, userInfo)
+            })
         })
-        .then(() => {
-            console.log(`Пользователь ${username} успешно зарегистрирован`)
+        .then(async () => {
+            const modal = new ConfirmModal({
+                message: "Регистрация успешна! На ваш email отправлено письмо для подтверждения регистрации. Пожалуйста, проверьте почту и подтвердите свой аккаунт.",
+                confirmButtonText: "Ок",
+                showCancelButton: false
+            })
+            await modal.showModal()
+
             this.emailInput.value = ""
             this.usernameInput.value = ""
             this.passwordInput.value = ""
@@ -202,6 +212,26 @@ class LoginForm extends AuthForm {
         .then(async (userCredential) => {
             const user = userCredential.user
 
+
+            if (!user.emailVerified) {
+
+                const existingErrorElement = this.form.querySelector(`.${styles["error-element"]}`)
+                if (existingErrorElement) {
+                    existingErrorElement.remove()
+                }
+
+                const errorElement = elementCreator("p", styles["error-element"],
+                    "Пожалуйста, подтвердите ваш email адрес. Проверьте почту и перейдите по ссылке в письме.")
+                this.form.append(errorElement)
+
+                const resendButton = elementCreator("button", styles["resend-verification-button"], "Отправить письмо повторно")
+                resendButton.type = "button"
+                resendButton.addEventListener("click", () => this.resendVerificationEmail(user))
+                this.form.append(resendButton)
+
+                return
+            }
+
             const userProfile = await firebaseService.readUserData(user.uid)
 
             if (userProfile) {
@@ -222,6 +252,35 @@ class LoginForm extends AuthForm {
         .finally(() => {
             this.LoadingModal.hide()
         })
+    }
+
+    async resendVerificationEmail(user) {
+        try {
+            this.LoadingModal.show()
+            await sendEmailVerification(user)
+
+            const modal = new ConfirmModal({
+                message: "Письмо для подтверждения отправлено повторно. Проверьте вашу почту.",
+                confirmButtonText: "Ок",
+                showCancelButton: false
+            })
+            await modal.showModal()
+
+            const resendButton = this.form.querySelector(`.${styles["resend-verification-button"]}`)
+            if (resendButton) {
+                resendButton.remove()
+            }
+        } catch (error) {
+            console.log("Ошибка при отправке письма:", error)
+            const modal = new ConfirmModal({
+                message: "Не удалось отправить письмо. Попробуйте позже.",
+                confirmButtonText: "Ок",
+                showCancelButton: false
+            })
+            await modal.showModal()
+        } finally {
+            this.LoadingModal.hide()
+        }
     }
 }
 
