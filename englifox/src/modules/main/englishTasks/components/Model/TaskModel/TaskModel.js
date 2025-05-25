@@ -141,4 +141,19 @@ export class TaskModel {
         }
         return false
     }
+
+     isAnswerCorrect() {
+        const taskType = this.taskInfo.type
+
+        if (taskType === "translate" || taskType === "audition") {
+            const checkResult = this.checkTranslateOrAuditionAnswer()
+            return Array.isArray(checkResult) ? checkResult.every(isCorrect => isCorrect) : false
+        }
+
+        if (taskType === "pairs") {
+            return this.checkPairsAnswer()
+        }
+
+        return false
+    }
 }
