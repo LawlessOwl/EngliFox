@@ -43,8 +43,10 @@ export class TasksSession {
         this.container.append(nextButton)
 
         view.onCheckAnswerCallback = () => {
-            if(taskFactory.taskModel.isTaskCompleted()) {
+            if(taskFactory.taskModel.isTaskCompleted() && taskFactory.taskModel.isAnswerCorrect()) {
                 nextButton.disabled = false
+            } else {
+                nextButton.disabled = true
             }
         }
 
