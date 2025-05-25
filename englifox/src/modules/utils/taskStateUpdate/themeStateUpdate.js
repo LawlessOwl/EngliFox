@@ -19,11 +19,7 @@ export const getCompletedThemes = async(userId) => {
 
 export const getAllSubtasksForTheme = async (themeName) => {
     const library = await loadTaskLibrary();
-    console.log(`library: ${library}`)
-    console.log(`themeName: ${themeName}`)
-    console.log(`All themes in library: ${Object.keys(library)}`)
     const theme = library[themeName]
-    console.log(`theme: ${theme}`)
     return theme ? Object.keys(theme) : []
 }
 

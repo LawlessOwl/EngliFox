@@ -1,8 +1,11 @@
-import { ConfirmModal } from "../../utils/confirm-modal/confirm-modal.js"
-import { elementCreator } from "../../utils/element-creator/elementCreator.js"
-import { isTaskCompleted } from "../../utils/taskStateUpdate/taskStateUpdate.js"
-import { TasksSession } from "./TasksSession/TasksSession.js"
-import styles from "./styles/initTask.module.css"
+import { onAuthStateChanged } from "firebase/auth";
+import { ConfirmModal } from "../../utils/confirm-modal/confirm-modal.js";
+import { elementCreator } from "../../utils/element-creator/elementCreator.js";
+import { auth } from "../../utils/firebase/firebase.js";
+import { isTaskCompleted } from "../../utils/taskStateUpdate/taskStateUpdate.js";
+import { isThemeCompleted } from "../../utils/taskStateUpdate/themeStateUpdate.js";
+import styles from "./styles/initTask.module.css";
+import { TasksSession } from "./TasksSession/TasksSession.js";
 
 const tasksLibraryResponce = await fetch("/taskLibrary/taskLibrary.json")
 const jsonTasksLibrary = await tasksLibraryResponce.json()
@@ -13,8 +16,7 @@ export const renderTasks = () => {
     const taskWrapper = elementCreator("div", styles["task-wrapper"])
     const themeContainer = elementCreator("div", styles["theme-container"])
 
-    const handleThemeClick = (themeName, themeElement) => {
-        // Очищаем все существующие подтемы
+    const handleThemeClick = async (themeName, themeElement) => {
         document.querySelectorAll(`.${styles["subtask-container"]}`).forEach(container => {
             container.remove()
         })
@@ -22,25 +24,22 @@ export const renderTasks = () => {
         const theme = tasksLibrary[themeName]
         const subtasks = Object.keys(theme)
 
-        // Создаем контейнер для подтем
         const subtaskContainer = elementCreator("div", styles["subtask-container"])
 
-        subtasks.forEach((subtaskName) => {
-            const subtaskElement = createSubtask(themeName, subtaskName)
+        for (const subtaskName of subtasks) {
+            const subtaskElement = await createSubtask(themeName, subtaskName)
             subtaskElement.addEventListener("click", () => handleSubtaskClick(themeName, subtaskName))
             subtaskContainer.append(subtaskElement)
-        })
+        }
 
-        // Вставляем контейнер с подтемами сразу после выбранной темы
         themeElement.insertAdjacentElement('afterend', subtaskContainer)
     }
 
-    const handleSubtaskClick = (themeName, subtaskName) => {
+    const handleSubtaskClick = async (themeName, subtaskName) => {
         const stratTask = () => {
             taskWrapper.innerHTML = ""
             themeContainer.innerHTML = ""
-            
-            // Очищаем все контейнеры подтем
+
             document.querySelectorAll(`.${styles["subtask-container"]}`).forEach(container => {
                 container.remove()
             })
@@ -50,41 +49,79 @@ export const renderTasks = () => {
         }
 
         const showConfirmModal = async (text) => {
-            const confirmModal = new ConfirmModal({ message: text, confirmButtonText: "Начать", cancelButtonText: "Отмена" })
+            const confirmModal = new ConfirmModal({
+                message: text,
+                confirmButtonText: "Начать",
+                cancelButtonText: "Отмена"
+            })
             return confirmModal.showModal()
         }
 
-        const confrirmModalMessage = isTaskCompleted(themeName, subtaskName) ? `Вы хотите пройти задание "${subtaskName}" заново?` : `Вы уверены, что хотите начать задание "${subtaskName}"?`
+        const currentUser = auth.currentUser
+        if (!currentUser) return
 
-        showConfirmModal(confrirmModalMessage).then((confirm) => {
+        const isCompleted = await isTaskCompleted(currentUser.uid, themeName, subtaskName)
+        const confirmModalMessage = isCompleted
+            ? `Вы хотите пройти задание "${subtaskName}" заново?`
+            : `Вы уверены, что хотите начать задание "${subtaskName}"?`
+
+        showConfirmModal(confirmModalMessage).then((confirm) => {
             if(confirm) {
                 stratTask()
             }
         })
     }
 
-    const createTheme = (themeName) => {
+    const createTheme = async (themeName) => {
         const theme = elementCreator("button", styles["theme"])
         const themeNameElement = elementCreator("div", styles["theme-name"], themeName)
+
+        const currentUser = auth.currentUser
+
+        if (currentUser) {
+            const isCompleted = await isThemeCompleted(currentUser.uid, themeName)
+
+            if (isCompleted) {
+                theme.classList.add(styles["theme-completed"])
+            }
+        }
+
         theme.addEventListener("click", () => handleThemeClick(themeName, theme))
         theme.append(themeNameElement)
         return theme
     }
 
-    const createSubtask = (themeName, subtaskName) => {
+    const createSubtask = async (themeName, subtaskName) => {
         const subtask = elementCreator("button", styles["subtask"])
-        if(isTaskCompleted(themeName, subtaskName)) {
-            subtask.classList.add("completed")
+
+        const currentUser = auth.currentUser
+        if (currentUser) {
+            const isCompleted = await isTaskCompleted(currentUser.uid, themeName, subtaskName)
+            if (isCompleted) {
+                subtask.classList.add(styles["subtask-completed"])
+            }
         }
+
         const subtaskNameElement = elementCreator("div", styles["subtask-name"], subtaskName)
         subtask.append(subtaskNameElement)
         return subtask
     }
 
-    Object.keys(tasksLibrary).forEach((themeName) => {
-        const themeElement = createTheme(themeName)
-        themeContainer.append(themeElement)
-    })
+    const initializeThemes = async () => {
+        return new Promise((resolve) => {
+            onAuthStateChanged(auth, async (user) => {
+                themeContainer.innerHTML = ""
+
+                for (const themeName of Object.keys(tasksLibrary)) {
+                    const themeElement = await createTheme(themeName)
+                    themeContainer.append(themeElement)
+                }
+                resolve()
+            })
+        })
+    }
+
+    initializeThemes()
 
     const tasksWrapper = elementCreator("div", styles["task-wrapper"])
     tasksWrapper.append(themeContainer, taskWrapper)

@@ -1,4 +1,3 @@
-
 const voiceLoader = () => {
     return new Promise((resolve, reject) => {
         if (window.responsiveVoice) {

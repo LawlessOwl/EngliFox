@@ -6,7 +6,8 @@
   background: linear-gradient(135deg, #f5ebe0 0%, #f0e6d2 100%);
   padding: 2.5rem;
   border-radius: 1.5rem;
-  box-shadow: 0 8px 32px rgba(139, 69, 19, 0.15), 0 2px 8px rgba(106, 76, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(139, 69, 19, 0.15),
+    0 2px 8px rgba(106, 76, 255, 0.12);
   width: min(400px, 90vw);
   margin: auto;
   border: 1px solid rgba(139, 69, 19, 0.2);
@@ -15,7 +16,7 @@
 }
 
 .authentication-window::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -27,8 +28,13 @@
 }
 
 @keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .registration-button,
@@ -51,13 +57,18 @@
 
 .registration-button::before,
 .login-button::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -176,13 +187,18 @@
 
 .registration-send-form::before,
 .login-send-form::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s;
 }
 
@@ -217,21 +233,26 @@
   margin: 0.75rem 0;
   animation: errorSlideIn 0.3s ease-out;
   position: relative;
-}
-
-.error-element::before {
-  content: '⚠️';
-  margin-right: 0.5rem;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  min-height: auto;
+  max-height: none;
+  overflow: visible;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 @keyframes errorSlideIn {
   from {
     opacity: 0;
     transform: translateY(-10px) scale(0.95);
+    max-height: 0;
   }
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+    max-height: 200px;
   }
 }
 
@@ -248,12 +269,21 @@
   position: relative;
   width: 100%;
   box-sizing: border-box;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  min-height: auto;
+  max-height: none;
+  overflow: visible;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .input-error::before {
-  content: '•';
+  content: "⚠️";
   margin-right: 0.25rem;
   color: #ec4899;
+  display: inline;
 }
 
 @keyframes inputErrorSlideIn {
@@ -267,7 +297,7 @@
   to {
     opacity: 1;
     transform: translateX(0);
-    max-height: 50px;
+    max-height: 100px;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
   }
@@ -285,9 +315,16 @@
 }
 
 @keyframes inputShake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -362,8 +399,6 @@
 }
 
 .authentication-window {
-  box-shadow: 
-    0 8px 32px rgba(139, 69, 19, 0.15), 
-    0 2px 8px rgba(106, 76, 255, 0.12),
-    0 0 0 1px rgba(240, 230, 210, 0.8);
+  box-shadow: 0 8px 32px rgba(139, 69, 19, 0.15),
+    0 2px 8px rgba(106, 76, 255, 0.12), 0 0 0 1px rgba(240, 230, 210, 0.8);
 }
