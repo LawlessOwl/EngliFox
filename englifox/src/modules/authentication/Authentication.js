@@ -157,8 +157,6 @@ class RegistrationForm extends AuthForm {
 
                 const userInfo = {
                     username,
-                    email,
-                    password,
                     points: 0,
                     completedTasks: {},
                 }
