@@ -77,14 +77,6 @@ export class SettingsPage {
 
                     await updatePassword(currentUser, newPassword)
                     alert("Пароль успешно изменен")
-
-                    const userData = await firebaseService.readUserData(this.userId)
-                    console.log(userData)
-
-                    await firebaseService.updateUserData(this.userId, {
-                        ...userData,
-                        password: newPassword
-                    })
                 } catch (error) {
                     if (error.code === "auth/wrong-password") {
                         alert("Неверный пароль")
